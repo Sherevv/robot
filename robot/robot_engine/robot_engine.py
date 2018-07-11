@@ -348,15 +348,11 @@ class RobotEngine:
 
         position = self.hRobot.position
 
-        if position[0] < 0:
-            position[0] = 0
-        elif position[0] >= self.hField.size[0]:
-            position[0] = self.hField.size[0] - 1
-
-        if position[1] < 0:
-            position[1] = 0
-        elif position[1] >= self.hField.size[1]:
-            position[1] = self.hField.size[1] - 1
+        for i in range(len(position)):
+            if position[i] < 0:
+                position[i] = 0
+            elif position[i] >= self.hField.size[i]:
+                position[i] = self.hField.size[i] - 1
 
         if self.isEffectOn:
             self.hRobot.meas()
@@ -416,10 +412,7 @@ class RobotEngine:
         without special effects ( blinking of the legs, delays )
         """
 
-        # TODO: change checks to no flip
-        position = self.hRobot.position
-        x = position[0]  # row index
-        y = position[1]  # col index
+        x, y = self.hRobot.position  # x - row index, y - col index
 
         side = side.upper()
         if side == 'N':

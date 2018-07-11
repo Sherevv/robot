@@ -36,6 +36,18 @@ Second variant. Remote using pip:
 pip install git+https://github.com/Sherevv/robot.git
 ```
 
+# Robot methods
+**step(side)** - moves robot on one step to the set `side`
+
+**mark()** - puts a marker in the current cell
+
+**is_mark()** - check if marker exists in the current cell
+
+**is_bord(side)** - check if border exists in the set side
+
+**get_tmpr()** - returns value of temperature in the current cell
+
+`side` can use values `'n'`, `'s'`, `'w'`, `'o'` respectively North, South, West, East
 # Basic usage
 
 Create script, example start.py
@@ -45,6 +57,7 @@ from robot import Robot
 r = Robot()
 
 r.mark()
+r.is_mark()
 r.step('w')
 r.get_tmpr()
 r.is_bord('s')

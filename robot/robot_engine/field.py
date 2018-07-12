@@ -118,7 +118,7 @@ class Field(object):
     def restore(self):
         """ Create field from saved data """
 
-        with open(self.obj.fName, 'rb') as f:
+        with open(os.path.join(self.obj.fPath, self.obj.fName), 'rb') as f:
             r = pickle.load(f)
 
         self.size = r['size']
@@ -179,85 +179,37 @@ class Field(object):
         filepath = save_file(self.obj.fName)
 
         if not filepath:
-            return
+            return False
 
+        self.obj.fPath = os.path.dirname(filepath)
         self.obj.fName = os.path.basename(filepath)
 
         with open(filepath, 'wb') as f:
             pickle.dump(r, f)
 
-        self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + self.obj.fName)
+        self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + filepath)
         del_star_to_end(self.hFig)
 
-        # if Robot.Control.is_star_to_end(self.hFig) == 0:
-        #     # обстановка НЕ изменена
-        #     warndlg
-        #     print('Сохранить возможно только результат РУЧНОГО редактирования обстановки')
-        #     return
-        #
-        # #             if strcmp( self.saved, 'off')
-        # #                 msgbox 'Нельзя сохранить текущую обстановку, когда за пределами видимой части поля установлен хотя бы один маркер'
-        # #                 return
-        # #
-        #
-        # r = obj  # - это ссылка
-        #
-        # [filename, PathName] = uiputfile(self.fName, 'Выбирите файл для записи в текущей папке')
-        #
-        # if filename == 0:
-        #     return
-        #
-        # if not isequal(PathName(mslice[1:end - 1]), cd()):
-        #     # errordlg('Сохранить файл с обстановкой можно только в ТЕКУЩЕЙ папке')
-        #     return
-        #
-        # if isinstance(self.hRobot, Body1):
-        #     robName = 'Rob_rel'
-        # elif isinstance(self.hRobot, Body4):
-        #     robName = 'Rob_abs'
-        # else:
-        #     # error
-        #     print('НЕ допустимое значение параметра')
-        #
-        # self.fName = filename  # - на самом деле, это ни на что не повлияет
-        # save(self.fName, 'r', '-mat')
-        # set(gcf, 'name', [robName, ' - ', self.fName])
-        #
-        # Robot.Control.del_star_to_end(gcf)
-        # # в конце имени окна звездочки нет (удалена)
-        pass
+        return True
 
     def load(self):
         """ Load field state from a map file """
 
-        del_star_to_end(plt.gcf())
-
-        filepath = open_file(self.obj.fName)
+        filepath = open_file(self.obj.fName, self.obj.fPath)
 
         if not filepath:
-            return
+            return False
 
+        self.obj.fPath = os.path.dirname(filepath)
         self.obj.fName = os.path.basename(filepath)
-        print(filepath)
+
+        self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + filepath)
+
         self.restore()
 
-        # with open(filepath, 'rb') as f:
-        #     r = pickle.load(f)
+        del_star_to_end(self.hFig)
 
-        # rob = plt.gcf().robotdata
-        # plt.gcf().clf()
-        # rob = rob.__class__(filepath)
-
-        # [ filename, PathName ] = uigetfile( {'*.map'}, '����� ����� � ������ ����������' );
-        # FileName = [ PathName, filesep, filename ];
-        #
-        # if filename ~= 0 % - ���� ������
-        #
-        # [~, ~, ext] = fileparts( filename );
-        # if strcmpi( ext, '.map' ) == 0
-        #     errordlg('���� ������ ����� ���������� .map')
-        #     return
-        # end
+        return True
 
     def grid_create(self):
         """Create lines for grid"""

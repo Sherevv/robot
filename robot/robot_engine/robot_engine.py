@@ -9,6 +9,7 @@ from .decode_side import decode_side
 from .star_control import is_star_to_end
 from .exeptions import *
 from .field import Field
+
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 
 
@@ -119,7 +120,7 @@ class RobotEngine:
         """
 
         self.delay_def = 0.5
-        self.delay = self.delay_def  # Значение delay может быть изменено с помощью соответствующего инструмента
+        self.delay = self.delay_def
         self.isEffectOn = True
 
         self.isServiceable = True
@@ -128,6 +129,7 @@ class RobotEngine:
         self.outMarkPos = []
         self.outside = 'none'
         self.hRobot = None
+        self.fPath = ''
 
         if robot_type == 'Robot':
             body = Body4
@@ -143,20 +145,12 @@ class RobotEngine:
 
         if not mapfile:
             self.fName = 'untitled.map'
-        else:  # входной параметр mapfile - не пустой
+            if not self.hField.load():  # User press "Cancel"
+                self.hField.save()
+        else:
             self.fName = mapfile
             self.hField.restore()
-            # __, ext = os.path.splitext(mapfile)
-            # self.fName = [name, ext]
-            # требуется выбрать файл
-            # filepath = get_file()
-            # print(a)
 
-            # if filepath and os.path.isfile(filepath):  # - файл выбран
-            #     if os.path.splitext(filepath)[1] != '.map':
-            #         return
-        # self.Field.create(self)  # self.field_create( self.hField.size )
-        # self.hField = Field(self)
         plt.show(block=False)
 
     def step(self, side=None):

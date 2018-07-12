@@ -176,15 +176,20 @@ class RobotEngine:
 
         self._pause()
 
-        if side in ('n', 'N'):
+        if side and isinstance(side, str):
+            side = side.lower()
+        else:
+            raise SideValueError
+
+        if side == 'n':
             vect = [0, 1]  # при коррекции индексов, этот вектор нужно переворачивать
-        elif side in ('s', 'S'):
+        elif side == 's':
             vect = [0, -1]
 
-        elif side in ('o', 'O'):
+        elif side == 'o':
             vect = [1, 0]
 
-        elif side in ('w', 'W'):
+        elif side == 'w':
             vect = [-1, 0]
         else:
             raise SideValueError

@@ -126,7 +126,7 @@ class RobotEngine:
         self.isServiceable = True
         self.diameter = 40
         self.robotType = robot_type
-        self.outMarkPos = []
+        self.outMarkPos = np.empty((0, 2), int)
         self.outside = 'none'
         self.hRobot = None
         self.fPath = ''
@@ -267,13 +267,8 @@ class RobotEngine:
 
         if self.is_out():
             # robot is outside the visible part of the field
-            # TODO добавление только новых меток
-            # if pos not in self.outMarkPos.any():
-            self.outMarkPos.append(pos)
-            print("out")
-
-            self._pause()
-
+            if not any(np.equal(self.outMarkPos, pos).all(1)):
+                self.outMarkPos = np.append(self.outMarkPos, [pos], axis=0)
         else:
             # robot is in the visible part of the field
             if not self.hField.hMark[pos[0]][pos[1]]:
@@ -300,29 +295,13 @@ class RobotEngine:
 
         pos = self.hRobot.position
         if self.is_out():  # robot is outside the visible part of the field
-
-            if self.outside == 'nomark':
-                ansv = False
-                for i in range(len(self.outMarkPos)):
-                    # TODO: check this
-                    if pos == self.outMarkPos[i, :]:  # isequal( pos, self.outMarkPos(i,:) ) == 1
-                        ansv = True
-                        break
-
-            # elif self.outside == 'ismark':
-            # ansv = True
-
-            self._pause()
+            return any(np.equal(self.outMarkPos, pos).all(1))
         else:  # robot is in the visible part of the field
-            if self.hField.hMark[pos[0]][pos[1]]:
-                ansv = True
-            else:
-                ansv = False
 
             if self.isEffectOn:
                 self.hRobot.is_mark()
 
-        return ansv
+            return True if self.hField.hMark[pos[0]][pos[1]] else False
 
     def get_tmpr(self):
         """

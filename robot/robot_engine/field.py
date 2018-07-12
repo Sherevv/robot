@@ -69,7 +69,6 @@ class Field(object):
         self.hHorBord = None
         self.hMark = None
         self.tMap = []
-        self.outMarkPos = []
         self.hRobot = None
 
         # сreate Figure
@@ -150,7 +149,7 @@ class Field(object):
         self.bord_rest()
 
         # restore initial markers
-        self.outMarkPos = []  # r.outMarkPos;
+        self.obj.outMarkPos = np.empty((0, 2), int)
         self.hMark = r['hMark']
         self.mark_rest()
 

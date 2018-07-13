@@ -12,7 +12,7 @@ from .marker import Marker
 from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
 from .helpers import eprint
 from .star_control import *
-from .dialog import save_file, open_file
+from .dialog import save_file, open_file, input_integer
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 
@@ -85,6 +85,7 @@ class Field(object):
         self.hAxes.robotdata = {'r': obj, 'f': self}
         self.hFig.canvas.callbacks.connect('pick_event', self.button_down_to_grid)
         self.hFig.canvas.callbacks.connect('button_press_event', self.button_down_to_cage)
+        self.hFig.canvas.callbacks.connect('button_press_event', self.button_down_to_text)
         self.hFig.canvas.mpl_connect('key_press_event', self.window_key_press)
         self.draw()
 
@@ -94,7 +95,7 @@ class Field(object):
         self.hVerBord = np.empty(self.size, dtype=object)
         self.hHorBord = np.empty(self.size, dtype=object)
         self.hMark = np.empty(self.size, dtype=object)
-        self.tMap = np.random.randint(10, size=self.size)
+        self.tMap = np.random.randint(-10, 10, size=self.size)
 
         # scale the axis area to fill the whole figure
         self.hAxes.set_position([0, 0, 1, 1])
@@ -427,6 +428,9 @@ class Field(object):
         except AttributeError:
             pass
 
+        if self.is_texts:
+            return
+
         x, y = (event.xdata, event.ydata)
 
         if not x or not y:
@@ -459,6 +463,42 @@ class Field(object):
         add_star_to_end(self.hFig)
         return True
 
+    def button_down_to_text(self, event=None, obj=None):
+        """Open dialog for asking temperature value by clicking the mouse on the field
+        """
+
+        try:
+            a = event.artist.robotdata
+            return
+        except AttributeError:
+            pass
+
+        if not self.is_texts:
+            return
+
+        x, y = (event.xdata, event.ydata)
+
+        if not x or not y:
+            return
+
+        xf = np.floor(x)
+        yf = np.floor(y)
+        xd = abs(x - xf)
+        yd = abs(y - yf)
+
+        if (0.8 < xd or xd < 0.2) or (0.2 > yd or yd > 0.8):
+            return
+
+        i = int(xf)
+        j = int(yf)
+
+        if self.hRobot.position[0] == i and self.hRobot.position[1] == j:
+            return
+
+        self.text_edit(i, j)
+
+        self.hFig.canvas.draw()
+
     def tmpr_text_trigger(self):
         """ Create/remove text with temperature in caves from values in self.tMap """
 
@@ -482,29 +522,27 @@ class Field(object):
                         self.hTexts[i][j].remove()
             self.is_texts = False
 
-    def text_edit(self, hText=None, eventData=None, obj=None, i=None, j=None):
+    def text_edit(self, i, j):
         """allows you to edit the cell temperature
         i,j - indices of the cells
 
         RECORDS the fact of change (possible) of a situation (adds * to the end of a name
         window title)
         """
-        # TODO: edit temp value on click
-        # обстановка изменена
+
         add_star_to_end(self.hFig)
 
-        # set(self.hTexts(i, j), 'color', 'r')
-        # t = inputdlg('Новое значение:', '', 1, (get(self.hTexts(i, j), 'string')))
-        #
-        # if isempty(t):
-        #     # отказ от редактирования
-        #     set(self.hTexts(i, j), 'color', 'b')
-        #     return
-        #
-        # t = t[0]
-        # set(self.hTexts(i, j), 'string', t, 'color', 'b')
-        # self.tMap(i, j).lvalue = str2double(t)
-        pass
+        self.hTexts[i][j].set_color('r')
+
+        t = input_integer(self.tMap[i][j])
+
+        if not t and t != 0:
+            self.hTexts[i][j].set_color('b')
+            return
+
+        self.hTexts[i][j].set_text(t)
+        self.hTexts[i][j].set_color('b')
+        self.tMap[i][j] = t
 
     def rob_object_delete(self, h=None, d=None):
         """Removes an object of class Rob_abs or Rob_rel or Rob_roy ( or any

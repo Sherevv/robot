@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import filedialog
+from tkinter import simpledialog
 
 
 def open_file(filename, path=None, title=None):
@@ -46,3 +47,21 @@ def save_file(filename):
 
     root.destroy()
     return file_path
+
+
+def input_integer(val):
+    """
+    Open input integer dialog
+    :param val - initial value
+    :return: path to file
+    """
+
+    root = tkinter.Tk()
+    root.withdraw()
+    answer = simpledialog.askinteger("Input", "Enter temperature from interval [-10,10]",
+                                     initialvalue=val,
+                                     minvalue=-10,
+                                     maxvalue=10)
+
+    root.destroy()
+    return answer

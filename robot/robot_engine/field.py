@@ -12,7 +12,7 @@ from .marker import Marker
 from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
 from .helpers import eprint
 from .star_control import *
-from .file_dialog import save_file, open_file
+from .dialog import save_file, open_file
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 

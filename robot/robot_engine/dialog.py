@@ -1,5 +1,5 @@
 import tkinter
-import tkinter.filedialog as tkFileDialog
+from tkinter import filedialog
 
 
 def open_file(filename, path=None, title=None):
@@ -20,7 +20,7 @@ def open_file(filename, path=None, title=None):
 
     root = tkinter.Tk()
     root.withdraw()
-    file_path = tkFileDialog.askopenfilename(
+    file_path = filedialog.askopenfilename(
         initialfile=filename,
         initialdir=path,
         title=title,
@@ -39,7 +39,7 @@ def save_file(filename):
 
     root = tkinter.Tk()
     root.withdraw()
-    file_path = tkFileDialog.asksaveasfilename(
+    file_path = filedialog.asksaveasfilename(
         initialfile=filename,
         title="Save map file",
         filetypes=(("Robot map files", "*.map"),))

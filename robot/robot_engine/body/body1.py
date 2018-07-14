@@ -56,6 +56,8 @@ class Body1(Body):
         elif side == 3:
             self.rot('LEFT')
 
+        self.hL[0].set_facecolor('g')
+
         # set(self.hL(3), 'ButtonDownFcn',
         #     lambda h, d: self.rot_('BACK', hFig))
         # set(self.hL(2), 'ButtonDownFcn',
@@ -106,15 +108,13 @@ class Body1(Body):
             print('НЕ предусмотренное значение параметра')
         # switch upper( side )
 
-        point = np.flipud(self.position) - 0.5
+        point = self.position + 0.5
         # координаты центра робота
 
         for i in range(4):
-            xData = self.hL[i].xdata
-            yData = self.hL[i].ydata
-            [xData, yData] = rot_data(xData, yData, phi, point)
-            self.hL[i].xdata = xData
-            self.hL[i].ydata = yData
+            xData, yData  = self.hL[i].xy
+            xData, yData = rot_data(xData + self.L/2, yData + self.L/2, phi, point)
+            self.hL[i].xy = (xData - self.L/2, yData - self.L/2)
 
     def is_bord(self):
         """Визуализирует факт проверки
@@ -129,7 +129,7 @@ class Body1(Body):
         self.update_facecolor_hl('r', [1, 3])
 
     def update_facecolor_hl(self, uclr, hli):
-        clr = self.hCorp.get_facecolor()
+        clr = self.hL[1].get_facecolor()
         for idx in hli:
             self.hL[idx].set_facecolor(uclr)
         self.hFig.canvas.draw()
@@ -143,33 +143,46 @@ class Body1(Body):
         находится в начале координат ( в точке (0,0) )
         """
 
-        L = self.L
+        self.xData_0_L[0] = 0
+        self.yData_0_L[0] = self.R
 
-        t = []  # [ -np.pi, / 4  :  -np.pi / 2  :  -3 * np.pi / 4 ]
-        segmXData = L * np.sqrt(2) * np.cos(t)
-        segmYData = L * np.sqrt(2) * np.sin(t)
-        xData_0 = [0, segmXData]  # [0  L/2  -L/2];
-        yData_0 = [L / 2, segmYData]  # [ L/2 -L/2 -L/2];
-        self.xData_0_L(1).lvalue = xData_0
-        self.yData_0_L(1).lvalue = yData_0 + self.R
+        for i in range(1, 5):
+            if i != 4:
+                self.xData_0_L[i], self.yData_0_L[i] = rot_data(
+                    self.xData_0_L[i - 1], self.yData_0_L[i - 1], -np.pi / 2, [0, 0])
+            self.xData_0_L[i - 1] -= self.L / 2
+            self.yData_0_L[i - 1] -= self.L / 2
 
-        self.xData_0_L(3).lvalue = xData_0
-        self.yData_0_L(3).lvalue = yData_0 - 0.75 * self.R
-
-        xData_0 = [-L / 2, L / 2, L / 2 - L / 2]
-        yData_0 = [L / 2 - 0.5 * L - 1.5 * L - L / 2]
-        self.xData_0_L(2).lvalue = xData_0 + self.R
-        self.yData_0_L(2).lvalue = yData_0
-
-        #             xData_0 = [-L/1.5 L/1.5  L/1.5 -L/1.5];
-        #             yData_0 = [ L/2 L/2 -L/2 -L/2];
-        #             self.xData_0_L{3} = xData_0;
-        #             self.yData_0_L{3} = yData_0 - self.R;
-
-        xData_0 = [-L / 2, L / 2, L / 2 - L / 2]
-        yData_0 = [-0.5 * L, L / 2 - L / 2 - 1.5 * L]
-        self.xData_0_L(4).lvalue = xData_0 - self.R
-        self.yData_0_L(4).lvalue = yData_0
+        # self.xData_0_L = [0,0,0,0]
+        # self.yData_0_L = [0,0,0,0]
+        #
+        # L = self.L
+        # pi = np.pi
+        # t = np.array([-pi/4, -pi/2 , -3*pi/4], dtype=float)  # [ -np.pi, / 4  :  -np.pi / 2  :  -3 * np.pi / 4 ]
+        # segmXData = L * np.sqrt(2) * np.cos(t)
+        # segmYData = L * np.sqrt(2) * np.sin(t)
+        # xData_0 = np.array([0,  L/2,  -L/2], dtype=float)    # np.array([0, [segmXData]], dtype=float)
+        # yData_0 =  np.array([ L/2 + self.R, -L/2 + self.R, -L/2 + self.R], dtype=float) # ;np.array([L / 2, segmYData], dtype=float)
+        # self.xData_0_L[0] = xData_0
+        # self.yData_0_L[0] = yData_0 #+ self.R
+        #
+        # self.xData_0_L[2] = xData_0
+        # self.yData_0_L[2] = yData_0 #- 0.75 * self.R
+        #
+        # xData_0 = [-L / 2, L / 2, L / 2, - L / 2]
+        # yData_0 = [L / 2, - 0.5 * L, - 1.5 * L, - L / 2]
+        # self.xData_0_L[1] = xData_0 #+ self.R
+        # self.yData_0_L[1] = yData_0
+        #
+        # #             xData_0 = [-L/1.5 L/1.5  L/1.5 -L/1.5];
+        # #             yData_0 = [ L/2 L/2 -L/2 -L/2];
+        # #             self.xData_0_L{3} = xData_0;
+        # #             self.yData_0_L{3} = yData_0 - self.R;
+        #
+        # xData_0 = np.array([-L / 2, L / 2, L / 2 - L / 2], dtype=float)
+        # yData_0 = np.array([-0.5 * L, L / 2 - L / 2 - 1.5 * L], dtype=float)
+        # self.xData_0_L[3] = xData_0 #- self.R
+        # self.yData_0_L[3] = yData_0
 
     def rot_(self, side=None, hFig=None):
         """Выполняет поворот  на 90 или 180 градусов влево или вправо - в

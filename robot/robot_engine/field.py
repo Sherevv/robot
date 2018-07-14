@@ -18,7 +18,7 @@ matplotlib.rcParams['toolbar'] = 'toolmanager'
 
 
 class Field(object):
-    def __init__(self, obj, size=None, name=None, ):
+    def __init__(self, obj, size=None, name=None, body=None ):
         """creates a field and initiates the properties of the generated obj object
 
         SYNTAX:
@@ -70,6 +70,7 @@ class Field(object):
         self.hMark = None
         self.tMap = []
         self.hRobot = None
+        self.body = body
 
         # сreate Figure
         self.hFig = plt.figure()
@@ -106,7 +107,7 @@ class Field(object):
         # scale the plot area conveniently (the board is in 0,0..18,18)
         self.hAxes.set_xlim(-0.1, self.size[0] + 0.1)
         self.hAxes.set_ylim(-0.1, self.size[1] + 0.1)
-        self.hRobot = Body4([0, 0], self.hFig)
+        self.hRobot = self.body([0, 0], self.hFig)
 
         tool = self.hFig.canvas.manager.toolmanager.get_tool('FrameTool')
         if tool.toggled is False:

@@ -133,14 +133,14 @@ class RobotEngine:
 
         if robot_type == 'Robot':
             body = Body4
-        elif robot_type in ['Robot_ort', 'Robot_rot']:
-            body = None  # Body1
+        elif robot_type in ['RobotOrt', 'RobotRot']:
+            body = Body1
         else:
             raise RobotTypeValueError
 
         self.fhBody = body
 
-        self.hField = Field(self)
+        self.hField = Field(self, body=body)
         self.hRobot.delay = self.delay_def
 
         if not mapfile:
@@ -372,9 +372,7 @@ class RobotEngine:
         # - side = ' n '(North) | ' o '(East) | ' s '(South) | ' w ' (West)
         # - current direction of the robot
         """
-        side = decode_side(self.hRobot.side)
-
-        return side
+        return decode_side(self.hRobot.side)
 
     def is_out(self):
         """

@@ -55,7 +55,7 @@ class Body:
         self.hFig = hFig
 
         # индексы  клетки  поля, содержащей робота ( левая нижняя клетка индексируется: [0,0] )
-        self.position = coordinates
+        self.position = np.array(coordinates)
 
         x = coordinates[0]
         y = coordinates[1]
@@ -290,7 +290,8 @@ class Draggable:
         for indx, hand in enumerate(self.hands):
             hand.xy = (self.hands_init['x'][indx] + newx, self.hands_init['y'][indx] + newy)
         # TODO: точность перемещений и границы
-        self.rob.position = [int(newx - self.rect_init['x']), int(newy - self.rect_init['y'])]
+        self.rob.position = np.array([int(newx - self.rect_init['x']), int(newy - self.rect_init['y'])])
+        self.rob.side = 0
         self.rect.set_facecolor('y')
         self.press = None
         self.r.isServiceable = True

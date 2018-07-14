@@ -32,6 +32,11 @@ class SideOrdValueError(RobotException):
     message = __doc__
 
 
+class SideRotValueError(RobotException):
+    """Not admissible value of SIDE parameter, admissible values: 'forward' ('f') |'left' ('l') | 'right' ('r')"""
+    message = __doc__
+
+
 class RobotTypeValueError(RobotException):
     """Wrong value for robot_type parameter"""
     message = __doc__

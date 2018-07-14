@@ -6,6 +6,7 @@ import matplotlib
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
 from .body.body4 import Body4
+from .body.body1 import Body1
 from .border import Border
 from .gridline import GridLine
 from .marker import Marker
@@ -13,12 +14,13 @@ from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
 from .helpers import eprint
 from .star_control import *
 from .dialog import save_file, open_file, input_integer
+from .exeptions import RobotTypeError
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 
 
 class Field(object):
-    def __init__(self, obj, size=None, name=None, body=None ):
+    def __init__(self, obj, size=None, name=None, body=None):
         """creates a field and initiates the properties of the generated obj object
 
         SYNTAX:
@@ -142,6 +144,17 @@ class Field(object):
 
         self.obj.isServiceable = True
 
+        if r['robot_type'] == 'Robot':
+            if not isinstance(self.obj.hRobot, Body4):
+                self.obj.hRobot.delete()
+                self.obj.hRobot = Body4([0, 0], self.hFig)
+        elif r['robot_type'] in ['RobotOrt', 'RobotRot']:
+            if not isinstance(self.obj.hRobot, Body1):
+                self.obj.hRobot.delete()
+                self.obj.hRobot = Body1([0, 0], self.hFig)
+        else:
+            raise RobotTypeError
+
         # restore robot object on the field
         self.obj.hRobot.shift(r['hRobot_position'], 'punct')
 
@@ -173,6 +186,7 @@ class Field(object):
             'hMark': self.copy_for_rest(self.hMark),
             'tMap': self.tMap,
             'hRobot_position': self.hRobot.position,
+            'robot_type': self.obj.robotType,
             'isFrame': True if self.hFrame else False,
             'size': self.size
         }

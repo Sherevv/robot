@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="robot",
-    version='0.0.1',
+    version='0.2.1',
     author="Sherevv",
     author_email="sherevv@gmail.com",
     description="Robot on the cave field",

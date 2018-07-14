@@ -1,3 +1,6 @@
+from .exeptions import SideValueError
+
+
 def encode_side(side):
     """
     Return side index by letter
@@ -5,8 +8,13 @@ def encode_side(side):
     :return:       0  |  1  |  2  |  3
     """
 
+    if side and isinstance(side, str):
+        side = side.lower()
+    else:
+        raise SideValueError
+
     side_list = ['n', 'o', 's', 'w']
     try:
         return side_list.index(side)
     except IndexError:
-        raise ValueError("Wrong side index")
+        raise SideValueError

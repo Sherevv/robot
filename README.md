@@ -1,11 +1,11 @@
 # Robot
 
-You can get in from
-[Github](https://github.com/sherevv/robot/).
+Robot on the plaid field
 
 # Requirements
 
 - Python 3.6.x
+- tkinter (include in the standard Python distribution)
 - numpy
 - matplotlib
 

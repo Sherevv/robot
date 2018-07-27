@@ -39,7 +39,7 @@ pip install git+https://github.com/Sherevv/robot.git
 ```
 
 
-# Описание класса Robot
+# Robot
 
     r = Robot()
     r = Robot( mapfile )            
@@ -95,11 +95,11 @@ The direction of travel, turns and check for obstacles are set on:
 
 **get_side()** - get the current direction of the robot
 
-Methods **mark()**, **is_mark()**, **get_tmpr()** - correspond to the Robot class methods
+Methods **mark()**, **is_mark()**, **get_tmpr()** - correspond to the `Robot` class methods
 
 # RobotRot
-It differs from the RobotOrt class in that instead of two methods `left`  and
-`right` the RobotOrt class has only one method `rot`, but with a parameter,
+It differs from the `RobotOrt` class in that instead of two methods `left`  and
+`right` the `RobotOrt` class has only one method `rot`, but with a parameter,
  which can have 3 values: `'left'`, `'right'`, `'back'` (or `'l'`, `'r'`,`'b'`)
 and also because the `is_bord` method has a parameter that can
     accept also 3 values: `'forward'`, `'left'`, `'right'`
@@ -110,7 +110,7 @@ and also because the `is_bord` method has a parameter that can
 
 **is_bord(side)** - check if border exists in the side
 
-The other methods are the same as in the RobotOrt class.
+The other methods are the same as in the `RobotOrt` class.
 
 # Basic usage
 

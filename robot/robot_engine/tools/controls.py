@@ -1,3 +1,4 @@
+import os
 from matplotlib.backend_tools import ToolBase, ToolToggleBase
 from matplotlib.backend_managers import ToolEvent
 from ...robot import *

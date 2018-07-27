@@ -20,8 +20,9 @@ matplotlib.rcParams['toolbar'] = 'toolmanager'
 
 
 class Field(object):
-    def __init__(self, obj, size=None, name=None, body=None):
-        """creates a field and initiates the properties of the generated obj object
+    def __init__(self, obj, body=None, size=None):
+        """
+        Creates a field and initiates the properties of the generated obj object
 
         SYNTAX:
            obj = field( obj, body, name )
@@ -74,6 +75,9 @@ class Field(object):
         self.hRobot = None
         self.body = body
 
+        if size is not None:
+            self.size = size
+
         # сreate Figure
         self.hFig = plt.figure()
         plt.gca().set_aspect('equal')  # save field scale
@@ -93,7 +97,7 @@ class Field(object):
         self.draw()
 
     def draw(self):
-
+        """ Create and draw field """
         self.hTexts = np.empty(self.size, dtype=object)
         self.hVerBord = np.empty(self.size, dtype=object)
         self.hHorBord = np.empty(self.size, dtype=object)
@@ -173,7 +177,8 @@ class Field(object):
         del_star_to_end(self.hFig)
 
     def save(self):
-        """In the CURRENT folder saves the current situation in a Mat file with the name of the person.name's
+        """
+        In the CURRENT folder saves the current situation in a Mat file with the name of the person.name's
         (or in another file selected in the dialog) in the variable p, if
         only the file extension does not match .Map (capital letters)
 
@@ -327,15 +332,14 @@ class Field(object):
 
     def window_key_press(self, eventdata=None):
         """
-        :param eventdata  - structure with the following fields (see matplotlib 'key_press_event')
-            key: name of the key that was pressed, in lower case
-
-
         Provides
         - ability to change the value of the delay
         when you press CTRL + plus or CTRL + minus
         - ability to move the robot to position (0, 0)
         when you press CTRL + R
+
+        :param eventdata  - structure with the following fields (see matplotlib 'key_press_event')
+            key: name of the key that was pressed, in lower case
         """
 
         if eventdata.key == 'ctrl++':
@@ -349,13 +353,15 @@ class Field(object):
             print('Robot moved to left bottom corner')
 
     def window_button_down(self, h=None, d=None, ):
-        """prevents the possibility of editing the environment when
+        """
+        Prevents the possibility of editing the environment when
         the robot is outside the field or markers have been set
         off the pitch
         """
+        # TODO: make work
 
         if self.outside == 'none' and (self.is_out == 1 or not self.outMarkPos):
-            print(
+            eprint(
                 'You cannot edit the field environment when the robot is outside '
                 'the visible part of the field or markers have been set behind it. '
                 'To be able to edit the situation, you need to restore the result '
@@ -364,13 +370,16 @@ class Field(object):
         pass
 
     def window_button_motion(self):
-        """ 'Captures' robot and drags it with the left mouse button pressed on the tip of the cursor """
+        """
+        'Captures' robot and drags it with the left mouse button pressed on the tip of the cursor
+        """
 
-        # self.isServiceable = True
-        # add_star_to_end(self.hFig)
+        self.obj.isServiceable = True
+        add_star_to_end(self.hFig)
 
     def button_down_to_grid(self, event):
-        """ Sets the partition between two adjacent cells when clicking the grid line
+        """
+        Set the partition between two adjacent cells when clicking the grid line
         ( the appropriate Robot class method is used to remove the partition.Border )
         - - or = 'hor' | 'ver'
         Records the fact of changing the situation (adds * to the end of the name
@@ -388,10 +397,9 @@ class Field(object):
         if ort == 'ver':
             y = np.floor(y)
             x = round(x)
-            # x,y - координаты нижнего конца отрезка границы
 
-            i = int(x)  # индекс строки матрицы hVerBord
-            j = int(y)  # индекс столбца матрицы hVerBord
+            i = int(x)  # the line index of the matrix hVerBord
+            j = int(y)  # the column index of the matrix hVerBord
 
             if i < 1 or i >= self.size[0]:
                 return
@@ -408,10 +416,9 @@ class Field(object):
         elif ort == 'hor':
             y = round(y)
             x = np.floor(x)
-            # x,y - координаты левого конца отрезка границы
 
-            i = int(x)  # индекс строки матрицы hHorBor
-            j = int(y)  # индекс столбца матрицы hHorBor
+            i = int(x)  # the line index of the matrix hHorBor
+            j = int(y)  # the column index of the matrix hHorBor
 
             if j < 1 or j >= self.size[1]:
                 return
@@ -431,8 +438,9 @@ class Field(object):
         add_star_to_end(self.hFig)
         return True
 
-    def button_down_to_cage(self, event=None, obj=None):
-        """Sets the marker when clicking the mouse on the field
+    def button_down_to_cage(self, event=None):
+        """
+        Set the marker when clicking the mouse on the field
         Records the fact of changing the situation (adds * to the end of the name
         window title)
         """
@@ -451,7 +459,6 @@ class Field(object):
         if not x or not y:
             return
 
-        # TODO: check values
         xf = np.floor(x)
         yf = np.floor(y)
         xd = abs(x - xf)
@@ -478,8 +485,9 @@ class Field(object):
         add_star_to_end(self.hFig)
         return True
 
-    def button_down_to_text(self, event=None, obj=None):
-        """Open dialog for asking temperature value by clicking the mouse on the field
+    def button_down_to_text(self, event=None):
+        """
+        Open dialog for asking temperature value by clicking the mouse on the field
         """
 
         try:
@@ -521,7 +529,8 @@ class Field(object):
             for i in range(self.size[0]):
                 for j in range(self.size[1]):
                     t = self.tMap[i][j]
-                    self.hTexts[i][j] = self.hAxes.text(i + 0.4, j + 0.35, str(t), color='b',
+                    self.hTexts[i][j] = self.hAxes.text(i + 0.4, j + 0.35, str(t),
+                                                        color='b',
                                                         bbox={'fill': True,
                                                               'edgecolor': 'k',
                                                               'facecolor': 'w',
@@ -538,7 +547,8 @@ class Field(object):
             self.is_texts = False
 
     def text_edit(self, i, j):
-        """allows you to edit the cell temperature
+        """
+        Allows you to edit the cell temperature
         i,j - indices of the cells
 
         RECORDS the fact of change (possible) of a situation (adds * to the end of a name
@@ -559,22 +569,11 @@ class Field(object):
         self.hTexts[i][j].set_color('b')
         self.tMap[i][j] = t
 
-    def rob_object_delete(self, h=None, d=None):
-        """Removes an object of class Rob_abs or Rob_rel or Rob_roy ( or any
-        other ) when closing its window
-
-        The 'robot data' property of the window contains a link to the created object
-        class Rob_rel or Rob_abs or maybe even a different
-        """
-
-        r = self.hFig.robotdata
-        if not r:
-            eprint("The 'robotdata' property of the graphical window "
-                   "must contain a reference to the corresponding object")
-
-        del r
-
     def set_delay(self, delay):
+        """
+        Set delay for operations
+        :param delay:
+        """
         self.hRobot.delay = delay
         self.obj.delay = delay
         self.obj.delay_def = delay

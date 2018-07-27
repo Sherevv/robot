@@ -11,7 +11,16 @@ class Border:
     """
 
     def __init__(self, xdata, ydata, fig, axes):
-        self.hLine = mlines.Line2D(xdata, ydata, linewidth=4, color='b', picker=5, zorder=10)
+        """
+        :param xdata, ydata: - line points
+        :param fig: - matplotlib figure
+        :param axes: - matplotlib axes
+        """
+        self.hLine = mlines.Line2D(xdata, ydata,
+                                   linewidth=4,
+                                   color='b',
+                                   picker=5,
+                                   zorder=10)
         self.hFig = fig
         self.hAxes = axes
         self.hAxes.add_line(self.hLine)

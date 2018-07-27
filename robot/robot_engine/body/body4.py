@@ -5,46 +5,35 @@ from .body import Body
 
 class Body4(Body):
     """
-    # Body4 - класс для визуального моделирования поведения не ориентированного
-    # робота ( < Robot.Body ( < handle ) )
-    #
-    # Protected - методы:
-    #   sond_data_init ( перегрузка виртуального метода )
-    #
-    # Public - свойства:
-    #   position, delay, moved ( наследуются от Robot.Body )
+    Body 4-class for visual modeling of undirected behavior
+    robot's
+
+    Protected-methods:
+            sound_data_init ( overload of a virtual method )
+
+    Public-properties:
+      position, delay, moved ( inherited from Robot.Body )
     """
 
-    def __init__(self, coordinates, hfig):
+    def __init__(self, coordinates, fig):
         """
-        # Конструктор ориентированного робота и его графического образа
-        #
-        # СИНТАКСИС:
-        #       r = Body4( coordinates, hFig )
-        # - coordinates = [x, y]  - декартовы координаты левого нижнего угла ячейки
-        # - hFig = дескриптор графического окна робота
-        #
-        #       r = Body4( R, hFig )
-        # - R = объект класса Robot.Body1 | объект класса Robot.Body4
+        Designer of the oriented robot and its graphical image
 
-        # if isequal(mclass(coordinates), 'Robot.Body1') or isequal(mclass(coordinates), 'Robot.Body4'):
-        # if isinstance(coordinates, Body1) or isinstance(coordinates, Body4):
-        #     coordinates = np.flipud(coordinates.position) - 1
-        # elif not isreal(coordinates) and numel(coordinates) == 2:
-        #
-        #     # error
-        #     print('Входной параметр должен быть объектом класса Robot.Body1
-        # или Robot.Body4 или 2-вектором real doouble')
+        SYNTAX:
+            r = Body 4( coordinates, hFig )
+        - coordinates = [x, y] - Cartesian coordinates of the lower left corner of the cell
+        - - hid = robot graphic window handle
+
         :param coordinates:
-        :param hfig:
+        :param fig:
         """
 
-        super().__init__(coordinates, hfig)
+        super().__init__(coordinates, fig)
 
     def sond_data_init(self):
         """
-        # создает массивы данных для лапок робота, центр которого
-        # находится в начале координат ( в точке (0,0) )
+        Create data sets for robot legs, the center of which
+        is at the origin (at (0,0) )
         """
 
         self.xData_0_L[0] = 0

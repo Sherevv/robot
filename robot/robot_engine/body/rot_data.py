@@ -2,19 +2,21 @@ import numpy as np
 
 
 def rot_data(x_data=None, y_data=None, phi=None, point=None):
-    """ rot_data-performs transformation of arrays of coordinates of graphical object points
+    """
+    Perform transformation of arrays of coordinates of graphical object points
     when turning at a given angle around a given point
 
     SYNTAX:
-              [x_data, y_data] = rot_data( x_data, y_data, phi, point )
+        [x_data, y_data] = rot_data( x_data, y_data, phi, point )
+
     AT BASELINE:
-    - x_data, y_data-double vectors that determine the coordinates of the points of the graphic object
-    - phi-rotation angle
-    - point = 2-vector double-contains the coordinates of the point-center of rotation
+        - x_data, y_data-double vectors that determine the coordinates of the points of the graphic object
+        - phi-rotation angle
+        - point = 2-vector double-contains the coordinates of the point-center of rotation
 
     RESULT:
-    - x_data, y_data - double of the vector defining the coordinates of the points
-      the graphical object after the rotation
+        - x_data, y_data - double of the vector defining the coordinates of the points
+          the graphical object after the rotation
     """
 
     complex_point = complex(point[0], point[1])

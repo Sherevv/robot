@@ -13,20 +13,22 @@ class Marker:
 
     def __init__(self, xf, yf, axes):
         """
-        :param xf: - координаты левого нижнего угла ячейки
-        :param yf:
-        :param hAxes: - дескриптор координатных осей
+        :param xf, yf: - coordinates of the lower left corner of the cell
+        :param axes: - matplotlib axes
         """
 
         self.hAxes = axes
-        # x0, y0 - координаты центра ячейки
+        # x0, y0 - the coordinates of the center of the cell
         x0 = xf + 0.5
         y0 = yf + 0.5
 
         self.hPatch = mpatches.Circle((x0, y0), .15,
-                                      facecolor='m', edgecolor='m',
-                                      linewidth=0.5, clip_on=False,
-                                      zorder=10, picker=5)
+                                      facecolor='m',
+                                      edgecolor='m',
+                                      linewidth=0.5,
+                                      clip_on=False,
+                                      zorder=10,
+                                      picker=5)
 
         self.hAxes.add_patch(self.hPatch)
 

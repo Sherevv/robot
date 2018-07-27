@@ -1,4 +1,3 @@
-import os
 import matplotlib.pyplot as plt
 from .robot_engine import RobotEngine
 from .robot_engine.exeptions import (RobotException, WindowClosedError,
@@ -29,72 +28,66 @@ class RobotBase:
 
         :param mapfile: Name of a mat-file with initial conditions
 
-        #
-        # Robot - конструктор класса
-        #
-        # СИНТАКСИС:
-        #       r = Robot()
-        #       r = Robot( mapfile )
-        #
-        # В 1-ом случае открвается стандартное диалоговое окно для
-        # выбора файла, в случае отказа, открывается диалог для
-        # определения параметров поля
-        #
-        # Во 2-м случае:
-        # - mapfile - имя файла, в котором сохранена обстановка на поле
-        #
-        # РЕЗУЛЬТАТ:
-        # - r = ссылка ( handle ) на созданный объект класса Robot
-        #
-        # -------------------------------------------------------------
-        # Kомандный интерфейс робота ( методы класса ):
-        #     step, is_bord, mark, is_mark, get_tmpr
-        #
-        # --------------------------------------------------------------
-        # Изменить ( установить или отредактировать ) начальную обстановку
-        # на поле можно с помощью мыши:
-        #  -клик по клетке устанавливает маркер
-        #  -клик по маркеру удаляет маркер
-        #  -клик по пунктирной линии сетки клетчатого поля устанавливает
-        #  перегородку
-        #  -клик по перегородке удаляет перегородку
-        #  -клик по роботу и перемещение мыши при неотпущенной клавише
-        #  перемещает робота вслед за курсором в нужную клетку
-        #  ( "неисправного" робота также можно "починить" таким способом )
-        # После любого числа таких действий робот сразу готов к командному
-        # управлению
-        #
-        # -------------------------------------------------------------
-        # Если r.outside = 'none', то считается, что поле ограничено рамкой
-        #     r.outside = 'ismark', то считается, что за пределами рамки сплошь установлены маркеры
-        #     r.outside = 'nomark', то считается, что за пределами рамки исходно маркеров нет
-        #
-        # При r.outside не равном 'none' считается, что все перегородки, вплотную примыкающие к рамке поля
-        # ( которая в данном случае не рассматривается как ограждение ),
-        # мыслятся продолженными до бесконечности в невидимую часть поля в соответствующих направлениях
-        # ( невидимая часть поля всегда остается невидимой )
-        #
-        # -------------------------------------------------------------
-        # Сохранить результат РУЧНОГО редактирования обстановки на поле
-        # можно с помощью комбинации клавиш CTRL+S
-        # ( при этом окно с роботом должно быть текущим! )
-        #
-        # Восстановить последнюю сохраненную обстановку на поле можно с помощью
-        # комбинации клавиш CTRL+R ( при этом окно с роботом должно быть текущим! )
-        #
-        # Просмотреть значения температур клеток можно с помощью коьбинации клавиш
-        # CRTL+T ( при этом окно с роботом должно быть текущим! )
-        # Повторное нажатие этой комбинации клавиш убирает значения температур из
-        # клеток.
-        # Визуализированные значения температур можно редактировать ( результаты редактирования
-        # сохраняются только в опреративной памяти, для сохранения на диске
-        # требуется CTRL+S )
-        #
-        # Динамически менять время задержки выполнения команд робота мможно с помощью
-        # комбинации клавиш CTRL+"плюс" или CTRL+"минус", соответственно
-        # ( при этом окно с роботом должно быть текущим! )
 
-        # hRobotEngine - ссылка на объект класса RobotEngine (робот на клетчатом поле)
+        In the 1st case, the standard dialog box opens for
+        in case of failure, the file selection dialog opens for
+        definition of field options
+
+        In the 2nd case:
+        - mapfile - the name of the file where the field situation is stored
+
+        RESULT:
+        - r = reference (handle ) to the created Robot class object
+
+        -------------------------------------------------------------
+        Robot command interface ( class methods ):
+            step, is_bord, mark, is_mark, get_tmpr
+
+        --------------------------------------------------------------
+        Change ( install or edit ) the initial situation
+        on the field, you can use the mouse:
+         - click on a cell to set a marker
+         - click on the marker to delete the marker
+         - click on the dotted grid line of the checkered field sets
+         partition
+         - clicking on the partition removes the partition
+         - click on the robot and move the mouse when the key is left
+         moves the robot after the cursor to the desired cell
+         (a" faulty "robot can also be "repaired" this way )
+        After any number of such actions, the robot is immediately ready for the command
+        management
+
+        -------------------------------------------------------------
+        If r.outside = 'none' , it is considered that the field is bounded by a frame
+            r.outside = 'ismark', it is considered that the outside of the frame completely installed markers
+            r.outside = 'nomark', it is considered that outside the scope of the original markers no
+
+        At r.outside is not equal to 'none' is considered that all partitions closely adjacent to the field frame
+        ( which in this case is not considered as a fence ),
+        thought continued to infinity in the invisible part of the field in the appropriate directions
+        ( the invisible part of the field is always invisible )
+
+        -------------------------------------------------------------
+        Save the result of MANUAL editing of the situation on the field
+        you can use CTRL+S
+        ( the window with the robot should be current! )
+
+        You can restore the last saved situation on the field using
+        keyboard shortcuts CTRL+R ( the window with the robot must be current! )
+
+        You can view the cell temperature values by using the key combination
+        CRTL+T ( the window with the robot must be current! )
+        Pressing this key combination again removes the temperature values from the
+        cells'.
+        Visualized temperature values can be edited ( editing results
+        operativnoi saved only in memory, to save on disk
+        requires CTRL+S )
+
+        It is possible to dynamically change the delay time of robot commands using
+        Ctrl+plus or CTRL+minus, respectively
+        ( the window with the robot should be current! )
+
+        hRobotEngine-reference to the object of the RobotEngine class (robot on a cellular field)
         """
         if not mapfile:
             mapfile = ''
@@ -123,7 +116,8 @@ class RobotBase:
         pass
 
     def step(self, side):
-        """step - Moves the Robot on one step to the set side
+        """
+        Move the Robot on one step to the set side
 
         SYNTAX:
                    r.step( side )
@@ -141,7 +135,7 @@ class RobotBase:
 
     def mark(self):
         """
-        Puts a marker in a current cage
+        Put a marker in a current cage
 
         SYNTAX:
                 r.mark()
@@ -213,92 +207,6 @@ class Robot(RobotBase):
     Directions of movement and obstacle checks are set ABSOLUTE values: North, South, West, East
     """
 
-    def __init__(self, mapfile=None):
-        """
-        Robot - The constructor of a class
-
-        SYNTAX:
-           r = Robot()
-           r = Robot( mapfile )
-        WHERE:
-        - mapfile = Name of a mat-file with initial conditions
-        - r = The reference to the created object
-
-        -------------------------------------------------------------
-        All methods of a class Robot:
-         step, is_bord, mark, is_mark, get_tmpr
-
-        :param mapfile: Name of a mat-file with initial conditions
-
-        #
-        # Robot - конструктор класса
-        #
-        # СИНТАКСИС:
-        #       r = Robot()
-        #       r = Robot( mapfile )
-        #
-        # В 1-ом случае открвается стандартное диалоговое окно для
-        # выбора файла, в случае отказа, открывается диалог для
-        # определения параметров поля
-        #
-        # Во 2-м случае:
-        # - mapfile - имя файла, в котором сохранена обстановка на поле
-        #
-        # РЕЗУЛЬТАТ:
-        # - r = ссылка ( handle ) на созданный объект класса Robot
-        #
-        # -------------------------------------------------------------
-        # Kомандный интерфейс робота ( методы класса ):
-        #     step, is_bord, mark, is_mark, get_tmpr
-        #
-        # --------------------------------------------------------------
-        # Изменить ( установить или отредактировать ) начальную обстановку
-        # на поле можно с помощью мыши:
-        #  -клик по клетке устанавливает маркер
-        #  -клик по маркеру удаляет маркер
-        #  -клик по пунктирной линии сетки клетчатого поля устанавливает
-        #  перегородку
-        #  -клик по перегородке удаляет перегородку
-        #  -клик по роботу и перемещение мыши при неотпущенной клавише
-        #  перемещает робота вслед за курсором в нужную клетку
-        #  ( "неисправного" робота также можно "починить" таким способом )
-        # После любого числа таких действий робот сразу готов к командному
-        # управлению
-        #
-        # -------------------------------------------------------------
-        # Если r.outside = 'none', то считается, что поле ограничено рамкой
-        #     r.outside = 'ismark', то считается, что за пределами рамки сплошь установлены маркеры
-        #     r.outside = 'nomark', то считается, что за пределами рамки исходно маркеров нет
-        #
-        # При r.outside не равном 'none' считается, что все перегородки, вплотную примыкающие к рамке поля
-        # ( которая в данном случае не рассматривается как ограждение ),
-        # мыслятся продолженными до бесконечности в невидимую часть поля в соответствующих направлениях
-        # ( невидимая часть поля всегда остается невидимой )
-        #
-        # -------------------------------------------------------------
-        # Сохранить результат РУЧНОГО редактирования обстановки на поле
-        # можно с помощью комбинации клавиш CTRL+S
-        # ( при этом окно с роботом должно быть текущим! )
-        #
-        # Восстановить последнюю сохраненную обстановку на поле можно с помощью
-        # комбинации клавиш CTRL+R ( при этом окно с роботом должно быть текущим! )
-        #
-        # Просмотреть значения температур клеток можно с помощью коьбинации клавиш
-        # CRTL+T ( при этом окно с роботом должно быть текущим! )
-        # Повторное нажатие этой комбинации клавиш убирает значения температур из
-        # клеток.
-        # Визуализированные значения температур можно редактировать ( результаты редактирования
-        # сохраняются только в опреративной памяти, для сохранения на диске
-        # требуется CTRL+S )
-        #
-        # Динамически менять время задержки выполнения команд робота мможно с помощью
-        # комбинации клавиш CTRL+"плюс" или CTRL+"минус", соответственно
-        # ( при этом окно с роботом должно быть текущим! )
-
-        # hRobotEngine - ссылка на объект класса RobotEngine (робот на клетчатом поле)
-        """
-        super().__init__(mapfile)
-
     def init_data(self):
         """
         Initialize data
@@ -347,126 +255,24 @@ class Robot(RobotBase):
 
 class RobotRelBase(RobotBase):
     """
-    #Класс Rob_rot, каждый объект этого класса является
-    #ссылкой ( handle ) на объект, представляющий
-    #   ИСПОЛНИТЕЛЯ "ориентированнный робот на клетчатом поле"
-    #
-    #Командный интерфейс ( методы класса ):
-    # forward, rot, is_bord, mark, is_mark, get_side, get_tmpr
-    #
-    #Направление перемещения, поворотов и проверки наличия препятствия задаются
-    #ОТНОСИТЕЛЬНО:
-    #   шаг вперед; повернуть налево; повернуть направо;
-    #   проверить, есть ли препятствие прямо по курсу, слева, справа
-    #
-    #************************************************************************
-    #ОТЛИЧАЕТСЯ от класса Rob_rel тем, что вместо двух методов Rob_rel\Left и
-    #Rob_rel\Right в классе Rob_rot имеется лишь один метод rot, но с параметром,
-    #который может принимать 3 значения: 'left', 'right', 'back' (или 'l',
-    #'r','b')
-    #а также тем, что метод Rob_rot\is_bord имеет параметр, который может
-    #принимать также 3 значения: 'forward', 'left', 'right'
-    #
-    #-------------------------------------------------------------------------
-    #Версия: 1.0*
-    #Дата: 13.03.2013
-    #-----------------------------------------------------------------------
-
-
-    # Rob_rot - класс-оболочка класса Robot.Robot( )
-
-    # % properties( Access = private )
-    #hField# ссылка на объект класса Robot.Robot (робот на клетчатом поле)
-    #end
     """
-
-    def __init__(self, mapfile=None):
-        """
-        #Rob_rot - конструктор класса
-        #
-        #СИНТАКСИС:
-        #       r = Rob_rot()
-        #       r = Rob_rot( mapfile )
-        #
-        #В 1-ом случае открвается стандартное диалоговое окно для
-        #выбора файла, в случае отказа, открывается диалог для
-        #определения параметров поля
-        #
-        #Во 2-м случае:
-        # - mapfile - имя файла, в котором сохранена обстановка на поле
-        #
-        #РЕЗУЛЬТАТ:
-        # - r = ссылка ( handle ) на созданный объект класса Rob_rot
-        #
-        #-------------------------------------------------------------
-        # Командный интерфейс робота ( методы класса ):
-        #   forward, rot, is_bord, mark, is_mark, get_side, get_tmpr
-        #
-        #-------------------------------------------------------------
-        #Изменить ( установить или отредактировать ) начальную обстановку
-        #на поле можно с помощью мыши:
-        #  -клик по клетке устанавливает маркер
-        #  -клик по маркеру удаляет маркер
-        #  -клик по пунктирной линии сетки клетчатого поля устанавливает
-        #  перегородку
-        #  -клик по перегородке удаляет перегородку
-        #  -клик по роботу и перемещение мыши при неотпущенной клавише
-        #  перемещает робота вслед за курсором в нужную клетку
-        #  ( "неисправного" робота также можно "починить" таким способом )
-        #После любого числа таких действий робот сразу готов к командному
-        #управлению
-        #
-        #-------------------------------------------------------------
-        #Если r.outside = 'none', то считается, что поле ограничено рамкой
-        #     r.outside = 'ismark', то считается, что за пределами рамки сплошь установлены маркеры
-        #     r.outside = 'nomark', то считается, что за пределами рамки исходно маркеров нет
-        #
-        #При r.outside не равном 'none' считается, что все перегородки, вплотную примыкающие к рамке поля
-        #( которая в данном случае не рассматривается как ограждение ),
-        #мыслятся продолженными до бесконечности в невидимую часть поля в соответствующих направлениях
-        #( невидимая часть поля всегда остается невидимой )
-        #
-        #-------------------------------------------------------------
-        #Сохранить результат РУЧНОГО редактирования обстановки на поле
-        #можно с помощью комбинации клавиш CTRL+S
-        #( при этом окно с роботом должно быть текущим! )
-        #
-        #Восстановить последнюю сохраненную обстановку на поле можно с помощью
-        #комбинации клавиш CTRL+R ( при этом окно с роботом должно быть текущим! )
-        #
-        #Просмотреть значения температур клеток можно с помощью коьбинации клавиш
-        #CRTL+T ( при этом окно с роботом должно быть текущим! )
-        #Повторное нажатие этой комбинации клавиш убирает значения температур из
-        #клеток
-        #Визуализированные значения температур можно редактировать ( результаты редактирования
-        #сохраняются только в опреративной памяти, для сохранения на диске
-        #требуется CTRL+S )
-        #
-        #Динамически менять время задержки выполнения команд робота мможно с помощью
-        #комбинации клавиш CTRL+"плюс" или CTRL+"минус", соответственно
-        #( при этом окно с роботом должно быть текущим! )
-        :param mapfile:
-        """
-
-        super().__init__(mapfile)
 
     def forward(self):
         """
-        #forward - команда переместить робота вперед в соседнюю клетку
-        #
-        #СИНТАКСИС:
-        #           r.forward( )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rot:
-        #   робот в некотрой клетке поля, прямо по курсу робота
-        #   перегородки нет
-        #
-        #РЕЗУЛЬТАТ:
-        # - Робот в соседней по направлению side клетке ( если
-        #   только на пути робота нет перегородки, в противном случае
-        #   происходит "поломка" робота )
-        :return:
+        forward-command to move the robot forward to the next cell
+
+        SYNTAX:
+                  R.forward( )
+
+        GIVEN:
+        - - r = reference to an object of class Rob_roy:
+                    robot in some cell of the field, right at the course of the robot
+          partition no
+
+        RESULT:
+        - The robot in the next cell in the direction of side (if
+          only on the way of the robot there is no partition, otherwise
+          there is a "breakdown" of the robot )
         """
 
         try:
@@ -480,20 +286,18 @@ class RobotRelBase(RobotBase):
 
     def get_side(self):
         """
-        #get_side - команда сообщить текущее направление робота
-        #
-        #СИНТАКСИС:
-        #            side = r.get_side()
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rot:
-        #   робот в некотрой клетке
-        #
-        #РЕЗУЛЬТАТ:
-        # - side = 'n' (Север) | 's' (Юг) | 'o' (Восток) | 'w' (Запад)
-        #   - текущее направление робота
-        #
-        :return:
+        get_side - command to communicate the current direction of the robot
+
+        SYNTAX:
+            side = r.get_side()
+
+        GIVEN:
+            - r = reference to an object of class Rob_roy:
+            a robot in a cage
+
+        RESULT:
+            - side = ' n '(North) | ' s '(South) | ' o '(East) | ' w ' (West))
+            - current direction of the robot
         """
 
         try:
@@ -505,104 +309,19 @@ class RobotRelBase(RobotBase):
 
 class RobotOrt(RobotRelBase):
     """
-    #Класс Rob_rel, каждый объект этого класса является
-    #ссылкой ( handle ) на объект, представляющий ИСПОЛНИТЕЛЯ "ориентированнный робот на клетчатом поле"
-    #
-    #Командный интерфейс ( методы класса ):
-    # forward, right, left, is_bord, mark, is_mark, get_side, get_tmpr
-    #
-    #Направление перемещения, поворотов и проверки наличия препятствия задаются
-    #ОТНОСИТЕЛЬНО:
-    #   шаг вперед; повернуть налево; повернуть направо;
-    #   проверить, есть ли препятствие прямо по курсу
-    #
-    #См. также ПОХОЖИЙ класс Rob_rot
-    #
-    #-------------------------------------------------------------------------
-    #Версия: 1.0*
-    #Дата: 13.03.2013
-    #-----------------------------------------------------------------------
-    # Rob_rel - класс-оболочка класса Robot.Robot
+    The RobotOrt class, each object of this class is
+        a reference (handle ) to an object representing an EXECUTOR of a " oriented robot on a cellular field"
 
-    # % properties( Access = private )
-    hField# ссылка на объект класса Robot.Robot (робот на клетчатом поле)
-    #end
+    Command interface ( class methods ):
+        forward, right, left, is_born, mark, is_mark, get_side, get_tmpr
 
+    The direction of travel, turns and check for obstacles are set
+    ON:
+      step forward; turn left; turn right;
+      check if there is an obstacle right on the course
 
-    # methods( Access = public )
-
+        See also a SIMILAR Robotron class
     """
-
-    def __init__(self, mapfile=None):
-        """
-        #Rob_rel - конструктор класса
-        #
-        #СИНТАКСИС:
-        #       r = Rob_rel()
-        #       r = Rob_rel( mapfile )
-        #
-        #В 1-ом случае открвается стандартное диалоговое окно для
-        #выбора файла, в случае отказа, открывается диалог для
-        #определения параметров поля
-        #
-        #Во 2-м случае:
-        # - mapfile - имя файла, в котором сохранена обстановка на поле
-        #
-        #РЕЗУЛЬТАТ:
-        # - r = ссылка ( handle ) на созданный объект класса Rob_rel
-        #
-        #-------------------------------------------------------------
-        # Командный интерфейс робота ( методы класса ):
-        #   forward, right, left, is_bord, mark, is_mark, get_side, get_tmpr
-        #
-        #-------------------------------------------------------------
-        #Изменить ( установить или отредактировать ) начальную обстановку
-        #на поле можно с помощью мыши:
-        #  -клик по клетке устанавливает маркер
-        #  -клик по маркеру удаляет маркер
-        #  -клик по пунктирной линии сетки клетчатого поля устанавливает
-        #  перегородку
-        #  -клик по перегородке удаляет перегородку
-        #  -клик по роботу и перемещение мыши при неотпущенной клавише
-        #  перемещает робота вслед за курсором в нужную клетку
-        #  ( "неисправного" робота также можно "починить" таким способом )
-        #После любого числа таких действий робот сразу готов к командному
-        #управлению
-        #
-        #-------------------------------------------------------------
-        #Если r.outside = 'none', то считается, что поле ограничено рамкой
-        #     r.outside = 'ismark', то считается, что за пределами рамки сплошь установлены маркеры
-        #     r.outside = 'nomark', то считается, что за пределами рамки исходно маркеров нет
-        #
-        #При r.outside не равном 'none' считается, что все перегородки, вплотную примыкающие к рамке поля
-        #( которая в данном случае не рассматривается как ограждение ),
-        #мыслятся продолженными до бесконечности в невидимую часть поля в соответствующих направлениях
-        #( невидимая часть поля всегда остается невидимой )
-        #
-        #-------------------------------------------------------------
-        #Сохранить результат РУЧНОГО редактирования обстановки на поле
-        #можно с помощью комбинации клавиш CTRL+S
-        #( при этом окно с роботом должно быть текущим! )
-        #
-        #Восстановить последнюю сохраненную обстановку на поле можно с помощью
-        #комбинации клавиш CTRL+R ( при этом окно с роботом должно быть текущим! )
-        #
-        #Просмотреть значения температур клеток можно с помощью коьбинации клавиш
-        #CRTL+T ( при этом окно с роботом должно быть текущим! )
-        #Повторное нажатие этой комбинации клавиш убирает значения температур из
-        #клеток
-        #Визуализированные значения температур можно редактировать ( результаты редактирования
-        #сохраняются только в опреративной памяти, для сохранения на диске
-        #требуется CTRL+S )
-        #
-        #Динамически менять время задержки выполнения команд робота мможно с помощью
-        #комбинации клавиш CTRL+"плюс" или CTRL+"минус", соответственно
-        #( при этом окно с роботом должно быть текущим! )
-
-        :param mapfile:
-        """
-
-        super().__init__(mapfile)
 
     def init_data(self):
         """
@@ -613,18 +332,17 @@ class RobotOrt(RobotRelBase):
 
     def left(self):
         """
-        #left - команда развернуть робота влево
-        #
-        #СИНТАКСИС:
-        #           r.left( )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rel:
-        #   робот в некотрой клетке поля
-        #
-        #РЕЗУЛЬТАТ:
-        # - Робот развёрнут влево на 90 градусов
-        :return:
+        left - command to turn the robot to the left
+
+        SYNTAX:
+            r.left( )
+
+        GIVEN:
+            - r = reference to an object of class Rob_rel:
+            the robot is in some cell of the field
+
+        RESULT:
+            - - Works deployed to the left at 90 degrees
         """
 
         try:
@@ -636,18 +354,17 @@ class RobotOrt(RobotRelBase):
 
     def right(self):
         """
-        #right - команда развернуть робота вправо
-        #
-        #СИНТАКСИС:
-        #           r.right( )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rel:
-        #   робот в некотрой клетке поля
-        #
-        #РЕЗУЛЬТАТ:
-        # - Робот развёрнут вправо на 90 градусов
-        :return:
+        right - command to deploy the robot to the right
+
+        SYNTAX:
+                  r.right( )
+
+        GIVEN:
+        - r = reference to an object of class Rob_rel:
+                    the robot is in some cell of the field
+
+        RESULT:
+        - - robot deployed to the right at 90 degrees
         """
 
         try:
@@ -658,18 +375,18 @@ class RobotOrt(RobotRelBase):
 
     def is_bord(self):
         """
-        #is_bord - команда проверить наличие перегородки впереди робота
-        #
-        #СИНТАКСИС:
-        #          ansv = r.is_bord( )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rel:
-        #   робот в некотрой клетке поля
-        #
-        #РЕЗУЛЬТАТ:
-        # - ansv = 1 ( True ), eсли в направлении side есть перегородка
-        #        = 0 ( False ) - в противном случае
+        is_born-command to check presence of partition in front of robot
+
+        SYNTAX:
+                 ansv = r.is_bord( )
+
+        GIVEN:
+        - r = reference to an object of class Rob_rel:
+                    the robot is in some cell of the field
+
+        RESULT:
+        - - ansv = 1 (True) if there is a partition in the side direction
+               = 0 (False) - otherwise
         :return:
         """
 
@@ -685,131 +402,48 @@ class RobotOrt(RobotRelBase):
 
 class RobotRot(RobotRelBase):
     """
-    #Класс Rob_rot, каждый объект этого класса является
-    #ссылкой ( handle ) на объект, представляющий
-    #   ИСПОЛНИТЕЛЯ "ориентированнный робот на клетчатом поле"
-    #
-    #Командный интерфейс ( методы класса ):
-    # forward, rot, is_bord, mark, is_mark, get_side, get_tmpr
-    #
-    #Направление перемещения, поворотов и проверки наличия препятствия задаются
-    #ОТНОСИТЕЛЬНО:
-    #   шаг вперед; повернуть налево; повернуть направо;
-    #   проверить, есть ли препятствие прямо по курсу, слева, справа
-    #
-    #************************************************************************
-    #ОТЛИЧАЕТСЯ от класса Rob_rel тем, что вместо двух методов Rob_rel\Left и
-    #Rob_rel\Right в классе Rob_rot имеется лишь один метод rot, но с параметром,
-    #который может принимать 3 значения: 'left', 'right', 'back' (или 'l',
-    #'r','b')
-    #а также тем, что метод Rob_rot\is_bord имеет параметр, который может
-    #принимать также 3 значения: 'forward', 'left', 'right'
-    #
-    #-------------------------------------------------------------------------
-    #Версия: 1.0*
-    #Дата: 13.03.2013
-    #-----------------------------------------------------------------------
+    The Robot class, each object of this class is
+    a reference (handle ) to an object that represents
+            CONTRACTOR " oriented robot on a cellular field"
 
+    Command interface ( class methods ):
+        forward, rat, is_born, mark, is_mark, get_side, get_tmp
 
-    # Rob_rot - класс-оболочка класса Robot.Robot( )
+    The direction of travel, turns and check for obstacles are set
+    ON:
+      step forward; turn left; turn right;
+      check if there is an obstacle right on the course, left, right
 
-    # % properties( Access = private )
-    #hField# ссылка на объект класса Robot.Robot (робот на клетчатом поле)
-    #end
+    ************************************************************************
+    It DIFFERS from the RobotOrt class in that instead of two methods, left and
+        right in the Robotron class, there is only one method, rot, but with a parameter,
+    which can have 3 values: 'left', 'right', 'back '(or'l',
+    'r','b')
+        and also because the is_born method has a parameter that can
+    accept also 3 values: 'forward', 'left', 'right'
+
     """
-
-    def __init__(self, mapfile=None):
-        """
-        #Rob_rot - конструктор класса
-        #
-        #СИНТАКСИС:
-        #       r = Rob_rot()
-        #       r = Rob_rot( mapfile )
-        #
-        #В 1-ом случае открвается стандартное диалоговое окно для
-        #выбора файла, в случае отказа, открывается диалог для
-        #определения параметров поля
-        #
-        #Во 2-м случае:
-        # - mapfile - имя файла, в котором сохранена обстановка на поле
-        #
-        #РЕЗУЛЬТАТ:
-        # - r = ссылка ( handle ) на созданный объект класса Rob_rot
-        #
-        #-------------------------------------------------------------
-        # Командный интерфейс робота ( методы класса ):
-        #   forward, rot, is_bord, mark, is_mark, get_side, get_tmpr
-        #
-        #-------------------------------------------------------------
-        #Изменить ( установить или отредактировать ) начальную обстановку
-        #на поле можно с помощью мыши:
-        #  -клик по клетке устанавливает маркер
-        #  -клик по маркеру удаляет маркер
-        #  -клик по пунктирной линии сетки клетчатого поля устанавливает
-        #  перегородку
-        #  -клик по перегородке удаляет перегородку
-        #  -клик по роботу и перемещение мыши при неотпущенной клавише
-        #  перемещает робота вслед за курсором в нужную клетку
-        #  ( "неисправного" робота также можно "починить" таким способом )
-        #После любого числа таких действий робот сразу готов к командному
-        #управлению
-        #
-        #-------------------------------------------------------------
-        #Если r.outside = 'none', то считается, что поле ограничено рамкой
-        #     r.outside = 'ismark', то считается, что за пределами рамки сплошь установлены маркеры
-        #     r.outside = 'nomark', то считается, что за пределами рамки исходно маркеров нет
-        #
-        #При r.outside не равном 'none' считается, что все перегородки, вплотную примыкающие к рамке поля
-        #( которая в данном случае не рассматривается как ограждение ),
-        #мыслятся продолженными до бесконечности в невидимую часть поля в соответствующих направлениях
-        #( невидимая часть поля всегда остается невидимой )
-        #
-        #-------------------------------------------------------------
-        #Сохранить результат РУЧНОГО редактирования обстановки на поле
-        #можно с помощью комбинации клавиш CTRL+S
-        #( при этом окно с роботом должно быть текущим! )
-        #
-        #Восстановить последнюю сохраненную обстановку на поле можно с помощью
-        #комбинации клавиш CTRL+R ( при этом окно с роботом должно быть текущим! )
-        #
-        #Просмотреть значения температур клеток можно с помощью коьбинации клавиш
-        #CRTL+T ( при этом окно с роботом должно быть текущим! )
-        #Повторное нажатие этой комбинации клавиш убирает значения температур из
-        #клеток
-        #Визуализированные значения температур можно редактировать ( результаты редактирования
-        #сохраняются только в опреративной памяти, для сохранения на диске
-        #требуется CTRL+S )
-        #
-        #Динамически менять время задержки выполнения команд робота мможно с помощью
-        #комбинации клавиш CTRL+"плюс" или CTRL+"минус", соответственно
-        #( при этом окно с роботом должно быть текущим! )
-        :param mapfile:
-        """
-
-        super().__init__(mapfile)
 
     def init_data(self):
         """
         Initialize data
-        :return:
         """
         self.hRobotEngine = RobotEngine(self.mapfile, 'RobotRot')
 
     def rot(self, side=None):
         """
-        #rot - команда развернуть робота налево, направо или назад
-        #
-        #СИНТАКСИС:
-        #           r.rot( side )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rot:
-        #   робот в некотрой клетке поля
-        # - side = 'l' ('left') | 'r' ('right') | 'b' ('back')
-        #РЕЗУЛЬТАТ:
-        # - Робот развёрнут влево на 90 градусов
+        rot - command to turn the robot left, right or back
+
+        SYNTAX:
+            r.rot( side )
+
+        GIVEN:
+            - - r = reference to an object of class Rob_roy:
+            the robot is in some cell of the field
+            - side = 'l' ('left') | ' r ' ('right') | ' b ' ('back')
+        RESULT:
+            - - Works deployed to the left at 90 degrees
         :param side:
-        :return:
         """
 
         try:
@@ -821,19 +455,19 @@ class RobotRot(RobotRelBase):
 
     def is_bord(self, side=None):
         """
-        #is_bord - команда проверить наличие перегородки в заданном направлении
-        #
-        #СИНТАКСИС:
-        #          ansv = r.is_bord( side )
-        #
-        #ДАНО:
-        # - r = ссылка на объект класса Rob_rot:
-        #   робот в некотрой клетке поля
-        # - side = 'forward' ('f') | 'left' ('l') | 'right' ('r')
-        #
-        #РЕЗУЛЬТАТ:
-        # - ansv = 1 ( true ), eсли в направлении side есть перегородка
-        #        = 0 ( false ) - в противном случае
+        is_bored - command to check partitions in a given direction
+
+        SYNTAX:
+                                  ansv = r.is_board( side )
+
+        GIVEN:
+        - - r = reference to an object of class Rob_roy:
+                    the robot is in some cell of the field
+        - side = 'forward' ('f') | 'left' ('l') | 'right' ('r'))
+
+        RESULT:
+        - - ansv = 1 (true) if there is a partition in the side direction
+               = 0 (false) - otherwise
         """
 
         try:
@@ -853,7 +487,7 @@ class RobotRot(RobotRelBase):
             elif side in ('RIGHT', 'R'):
                 abs_side = (abs_side + 1) % 4
             elif side in ('FORWARD', 'F'):
-                # направление остается прежним
+                # direction remains the same
                 pass
             else:
                 raise SideRotValueError

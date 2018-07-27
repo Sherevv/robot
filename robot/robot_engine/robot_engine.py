@@ -21,7 +21,7 @@ class RobotEngine:
     checkered field and robot on it
 
     Properties:
-    hFig, hAxes, field_size, hRobot, hMark, outMarkPos tMap, hVerBord, hhorborford,
+    hFig, hAxes, field_size, hRobot, hMark, outMarkPos tMap, hVerBord, hHorBord,
     isServiceable, f
 
     Methods. :.. + event handlers that provide capabilities:
@@ -95,28 +95,25 @@ class RobotEngine:
     """
 
     def __init__(self, mapfile=None, robot_type=None):
-        """ Robot-class constructor
+        """
+        Robot class constructor
         Creates (or creates, if in the dialogue there is a failure) box with a robot
         The robot type is determined by the value of the body parameter
 
         SYNTAX:
-        obj = Robot( body, [] )
-        obj = Robot( body, map file )
+            obj = Robot( [] )
+            obj = Robot( map file )
 
         GIVEN:
-        - - body = @Robot.Boy 4 (corresponds to Rob_abs) | @Robot.Body 1 (corresponds to Rob_rel)
-
-        - mapfile - [] | the name of the file ( mat-file, although the extension name is
-        to be another ) in which the previously stored certain situation on the field
+            - mapfile - [] | the name of the file ( mat-file, although the extension name is
+            to be another ) in which the previously stored certain situation on the field
 
         RESULT:
-        - - possible (map file = [] ) user dialog
+            - possible (map file = [] ) user dialog
 
-        - obj = reference (handle ) to the created object of the Robot class.Robot
-        It is possible that the obj object is deleted (deleted obj), which means that the field was not created,
-        for any reason
-
-        - self.outside = 'none' | 'ismark' | 'nomark'
+            - obj = reference (handle ) to the created object of the Robot class.Robot
+            It is possible that the obj object is deleted (deleted obj), which means that the field was not created,
+            for any reason
         """
 
         self.delay_def = 0.5
@@ -154,17 +151,18 @@ class RobotEngine:
         plt.show(block=False)
 
     def step(self, side=None):
-        """step - команда переместить робота в соседнюю клетку в заданном направлении
+        """
+        Move the robot to the next cell in the given direction
 
-        СИНТАКСИС:
-                 coderror =  r.step( side )
+        SYNTAX:
+            r.step( side )
 
-        ДАНО:
-        - side = 'n' | 's' | 'o' | 'w' - заданное направление
-        - r = ссылка на объект класса Rob_abs:
-          робот в некоторой клетке поля, со стороны side от робота
-          перегородки нет
-          """
+        GIVEN:
+            - side = 'n' | 's' | ' o ' | ' w ' - given direction
+            - r = reference to an object of class Rob_abs:
+              robot in some cell of the field, from the side of the robot
+              partition no
+        """
 
         self.state_check()
 
@@ -200,13 +198,13 @@ class RobotEngine:
         Rotates the robot in the specified direction with a delay
 
         SYNTAX:
-                  coderror = rot( obj, side )
+            r.rot( side )
         GIVEN:
-        - r = reference to an object of class Rob_abs:
-          robot in some cell of the field, from the side of the robot
-          partition no
-        - side = 'Right' | 'Left' | ' Back '(register value not
-        has)
+            - r = reference to an object of class Rob_abs:
+              robot in some cell of the field, from the side of the robot
+              partition no
+            - side = 'Right' | 'Left' | ' Back '(register value not
+            has)
         """
 
         self.state_check()
@@ -222,12 +220,12 @@ class RobotEngine:
         Command to check partitions in a given direction
 
         SYNTAX:
-                                  ansv = r.is_board( side )
+            res = r.is_board( side )
 
         GIVEN:
-        - side = 'n' | 's' | ' o ' | ' w ' - given direction
-        - r = reference to the Robot class object:
-                    the robot is in some cell of the field
+            - side = 'n' | 's' | ' o ' | ' w ' - given direction
+            - r = reference to the Robot class object:
+                        the robot is in some cell of the field
         """
 
         self.state_check()
@@ -253,12 +251,12 @@ class RobotEngine:
             r.mark()
 
         GIVEN:
-        - r = reference to the Robot class object:
-                    the robot is in some cell of the field
+            - r = reference to the Robot class object:
+                        the robot is in some cell of the field
 
         RESULT:
-        - In a cage with a robot is a marker
-        (re-marking does not change anything, you can not remove the already supplied marker )
+            - In a cage with a robot is a marker
+            (re-marking does not change anything, you can not remove the already supplied marker )
         """
 
         self.state_check()
@@ -284,11 +282,13 @@ class RobotEngine:
         Verify the presence of the marker field of the cell
 
         SYNTAX:
-                   [ansv, coderror] = R.is_mark()
+                   res = r.is_mark()
 
         GIVEN:
-        - r = reference to the Robot class object:
-        a robot in a cage
+            - r = reference to the Robot class object:
+            a robot in a cage
+
+        :return True - if cage is mark
         """
 
         self.state_check()
@@ -308,14 +308,14 @@ class RobotEngine:
         Command to measure and report the "temperature" of the current cell
 
         SYNTAX:
-                   [val, coderror] = R.get_tmpr()
+            val = r.get_tmpr()
 
         GIVEN:
-        - r = reference to the Robot class object:
-                    a robot in a cage
+            - r = reference to the Robot class object:
+                        a robot in a cage
 
         RESULT:
-        - val = integer (double) = "temperature" of the robot cell
+            - val = integer (double) = "temperature" of the robot cell
 
         ( when you create a new object of class Robot, "temperature"
         the field is generated randomly, but when you load a previously created one
@@ -342,11 +342,11 @@ class RobotEngine:
         Command to communicate the current direction of the robot
 
         SYNTAX:
-        side = r.get_side()
+            side = r.get_side()
 
         WHERE:
-        - r = reference to the Robot class object:
-        robot in a cage
+            - r = reference to the Robot class object:
+            robot in a cage
         """
 
         self.state_check()
@@ -358,26 +358,25 @@ class RobotEngine:
 
     def get_side_(self):
         """
-        Returns the current direction of the robot without
-        # visualizations
-        #
-        # SYNTAX:
-        # side = r.get_side_()
-        #
-        # GIVEN:
-        # - r = reference to an object of class Robot:
-        # # robot in some cell
-        #
-        # RESULT:
-        # - side = ' n '(North) | ' o '(East) | ' s '(South) | ' w ' (West)
-        # - current direction of the robot
+        Returns the current direction of the robot without visualizations
+
+        SYNTAX:
+            side = r.get_side_()
+
+        GIVEN:
+            - r = reference to an object of class Robot:
+            robot in some cell
+
+        RESULT:
+            - side = ' n '(North) | ' o '(East) | ' s '(South) | ' w ' (West)
+            - current direction of the robot
         """
         return decode_side(self.hRobot.side)
 
     def is_out(self):
         """
         Check robot is out of the field
-        :return: True - robot is out
+        :return: True - if robot is out
         """
         pos = self.hRobot.position
         return pos[0] < 0 or pos[0] >= self.hField.size[0] or pos[1] < 0 or pos[1] >= self.hField.size[1]
@@ -386,6 +385,8 @@ class RobotEngine:
         """
         Checks for the presence of a border in the specified direction
         without special effects ( blinking of the legs, delays )
+
+        :param side = ' n '(North) | ' o '(East) | ' s '(South) | ' w ' (West)
         """
 
         x, y = self.hRobot.position  # x - row index, y - col index
@@ -450,10 +451,14 @@ class RobotEngine:
             return True if self.hField.hVerBord[x][y] else False
 
     def _pause(self):
+        """ Add delay"""
         if self.hRobot.delay != 0:
             time.sleep(self.hRobot.delay)
 
     def state_check(self):
+        """
+        Checks robot and field state, raise errors
+        """
         if is_star_to_end(self.hField.hFig):
             raise NotSaveError
 
@@ -461,9 +466,11 @@ class RobotEngine:
             raise ServiceError
 
     def delay_off(self):
+        """ Disable delay """
         self.delay = 0
         self.hRobot.delay = 0
 
     def delay_on(self):
+        """ Enable delay """
         self.delay = self.delay_def
         self.hRobot.delay = self.delay_def

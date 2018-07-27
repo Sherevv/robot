@@ -7,54 +7,52 @@ from ..encode_side import encode_side
 
 class Body:
     """
-    # Body - виртуальный класс для визуального моделирования поведения не ориентированного
-    # робота ( < handle )
-    #
-    # Public - методы:
-    #   shift, mark, is_mark, is_bord, meas
-    # Protected - методы:
-    #   sond_data_init ( виртуальный метод )
-    #
-    # Свойства:
-    # position, delay, moved
-    # -------------------------------------------------------------------------
-    # Дата: 14.02.2015
-    # -----------------------------------------------------------------------
+    Body-base class for visual modeling of non-oriented behavior
+    robot's
+
+    Public method:
+        shift, mark, is_mark, is_bord, meas
+    Protected-methods:
+        sond_data_init ( virtual method )
+
+    Properties:
+        position, delay, moved
     """
 
     def __init__(self, coordinates, hFig):
         """
-        # Конструктор ориентированного робота и его графического образа
-        #
-        # СИНТАКСИС:
-        #       r = Body( coordinates )
-        # - coordinates = [x, y]  - декартовы координаты левого нижнего угла ячейки
-        # - hFig = дескриптор графического окна робота
+        Designer of the oriented robot and its graphical image
+
+        SYNTAX:
+            r = Body( coordinates )
+            - coordinates = [x, y] - Cartesian coordinates of the lower left corner of the cell
+            - - hid = handle of the graphics window work
 
         :param coordinates: initial robot position on the field
         :param hFig: reference to plot Figure
         """
 
         self.delay = 0
-        # self.moved = 'off'  # флаг, определяющий возможность перемещать робота мышью
+        # self.moved = 'off'  # flag that determines the ability to move the robot with the mouse
 
-        # hCorp# дескриптор корпуса
-        self.hL = [0, 0, 0, 0]  # = 4-вектор дескрипторов лапок робота:
-        #          1-ая лапка - ПЕРЕДНЯЯ или СЕВЕРНАЯ
-        #          2-ая лапка - ПРАВАЯ   или ВОСТОЧНАЯ
-        #          3-ая лапка - ЗАДНЯЯ   или ЮЖНАЯ
-        #          4-ая лапка - ЛЕВАЯ    или ВОСТОЧНАЯ
+        self.hL = [0, 0, 0, 0]  # = 4-vector of the descriptors of the feet of the robot:
+
+        # TODO: check this
+        # 1st foot - FRONT or NORTH
+        # 2st foot - RIGHT or EAST
+        # 3rd foot - REAR or SOUTH
+        # 4th foot - LEFT or EAST
 
         self.xData_0_L = np.zeros(4)
         self.yData_0_L = np.zeros(4)
 
-        self.R = 0.35  # радиус корпуса
-        # базовый размер лапок ( например, - сторона квадрата, если лапки квадратные )
+        self.R = 0.35  # the radius of the robot corpus
+        # the base size of the tabs ( e.g. the side of a square if the square foot )
         self.L = 0.15
 
         self.hFig = hFig
 
-        # индексы  клетки  поля, содержащей робота ( левая нижняя клетка индексируется: [0,0] )
+        # indices of the field cell containing the robot ( the lower left cell is indexed: [0,0] )
         self.position = np.array(coordinates)
 
         x = coordinates[0]
@@ -62,11 +60,14 @@ class Body:
 
         self.x_0 = x + 0.5
         self.y_0 = y + 0.5
-        # x_0, y_0 - координаты центра робота
+        # x_0, y_0 - the coordinates of the robot center
 
-        #
-        self.hCorp = mpatches.Circle((self.x_0, self.y_0), self.R, facecolor='y', edgecolor='k',
-                                     linewidth=1, clip_on=False, zorder=15)
+        self.hCorp = mpatches.Circle((self.x_0, self.y_0), self.R,
+                                     facecolor='y',
+                                     edgecolor='k',
+                                     linewidth=1,
+                                     clip_on=False,
+                                     zorder=15)
 
         self.hAxes = plt.gca()
         self.hAxes.add_patch(self.hCorp)
@@ -76,30 +77,34 @@ class Body:
         for i in range(4):
             self.hL[i] = mpatches.Rectangle(
                 (self.xData_0_L[i] + self.x_0,
-                 self.yData_0_L[i] + self.y_0
-                 ),
-                width=self.L, height=self.L, facecolor='k', edgecolor='k', zorder=16)
+                 self.yData_0_L[i] + self.y_0),
+                width=self.L,
+                height=self.L,
+                facecolor='k',
+                edgecolor='k',
+                zorder=16)
             self.hAxes.add_patch(self.hL[i])
 
         self.dr = Draggable(self.hCorp, self.hL, self.hFig, self)
 
     def delete(self):
+        """ Delete robot """
         self.hAxes.patches.remove(self.hCorp)
         for i in range(4):
             self.hAxes.patches.remove(self.hL[i])
 
     def shift(self, coord=None, mode=None):
         """
-        # без задержки сдвигает изображение робота на вектор coord или в точку coord
-        # - в зависимости от значения параметра mode
-        #
-        # - coord = 2-вектор double = координаты вектора перемещения | координаты центра корпуса
-        # - mode = 'vector' (для программного перемещения) | 'punct'(для ручного перемещения)
-        # Фиксирует факт изменения обстановки (добавляет * в конец имени
-        # заголовка окна)
+        without delay shifts the image of the robot on the vector of coord or coord point
+        - depending on the mode parameter value
+
+        - coord = 2-vector double = coordinates of the displacement vector | coordinates of the center of the body
+        - mode = ' vector '(for software movement) / 'punct' (for manual movement)
+        Records the fact of changing the situation (adds * to the end of the name
+        window title)
+
         :param coord:
         :param mode:
-        :return:
         """
 
         if mode == 'vector':
@@ -134,47 +139,43 @@ class Body:
 
             self.position = np.int8(np.array(coord) + 0.5)
         else:
-            print('Непредусмотренное значение параметра')
+            raise ValueError()
 
         # self.hFig.canvas.draw()
 
     def meas(self):
         """
-        # Визуализирует факт измерения
-        # с установленной временной задержкой
+        Visualizes the fact of measurement with the set time delay
         """
         self.update_edgecolor('b')
 
     def mark(self):
         """
-        # Визуализирует факт маркировки
-        # с установленной временной задержкой
-        # Если имело место редактирования обстановки, то открывает диалог
-        # для сохранения результата редактирования и удаляет * в конце
-        # имени окна
+        Visualizes the marking fact with the set time delay
+        If there was a situation editing, then opens a dialog
+        to save the result of editing and removes * at the end
+        window name
         """
         # Robot.Control.SaveDialog( self.hFig )
         self.update_edgecolor('m')
 
     def is_mark(self):
         """
-        # Визуализирует факт проверки
-        # с установленной временной задержкой
+        Visualizes the fact of the check with the set time delay
         """
 
         self.update_facecolor('m')
 
     def is_bord(self, side=None):
         """
-        # Визуализирует факт проверки
-        # с установленной временной задержкой
+        Visualizes the fact of the check with the set time delay
         :param side:
         """
 
         self.update_facecolor_p(self.hL[encode_side(side)], 'g')
 
     def sond_data_init(self):
-        # Виртуальный метод
+        """ Virtual method """
         pass
 
     def update_facecolor(self, uclr):
@@ -203,9 +204,6 @@ class Body:
         time.sleep(self.delay)
         self.hCorp.set(param, clr)
         self.hFig.canvas.draw()
-
-    # def clic_to_corp(self, eventdata=None, ):
-    #     self.moved = 'on'
 
 
 class Draggable:
@@ -289,12 +287,11 @@ class Draggable:
         self.rect.center = (newx, newy)
         for indx, hand in enumerate(self.hands):
             hand.xy = (self.hands_init['x'][indx] + newx, self.hands_init['y'][indx] + newy)
-        # TODO: точность перемещений и границы
+
         self.rob.position = np.array([int(newx - self.rect_init['x']), int(newy - self.rect_init['y'])])
         self.rob.side = 0
         self.rect.set_facecolor('y')
         self.press = None
-        self.r.isServiceable = True
         self.rect.figure.canvas.draw()
 
     def disconnect(self):

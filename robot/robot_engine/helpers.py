@@ -4,12 +4,16 @@ from .exeptions import MapfileExtensionError
 
 
 def eprint(*args, **kwargs):
+    """
+    Print error in console
+    """
     print(*args, file=sys.stderr, **kwargs)
 
 
 def mapfile_check(mapfile):
     """
     Checks map file parameter, raise errors
+    :param mapfile: file path string
     """
     if not isinstance(mapfile, str) or len(mapfile) < 5:
         raise ValueError('The parameter should be a string')

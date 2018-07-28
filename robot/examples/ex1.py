@@ -23,7 +23,7 @@ if not rt.is_bord('forward'):  # Check if border exists in front of robot
 if not rt.is_bord('right'):    # Check if border exists to the right of robot
     rt.rot('r')                # Turn robot right
     rt.forward()               # Move forward
-print(ro.get_side())           # Print robot orientation
+print(rt.get_side())           # Print robot orientation
 
 
 input()  # to prevent close plot window

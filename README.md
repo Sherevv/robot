@@ -49,7 +49,7 @@ in case of failure, the file selection dialog opens for
 definition of field options
 
 In the 2nd case:
-- mapfile - the name of the file where the field situation is stored
+- `mapfile` - the name of the file where the field map is stored
 
 Change ( install or edit ) the initial situation on the field, you can use the mouse:
 - click on a cell to set a marker
@@ -141,7 +141,7 @@ if not rt.is_bord('forward'):  # Check if border exists in front of robot
 if not rt.is_bord('right'):    # Check if border exists to the right of robot
     rt.rot('r')                # Turn robot right
     rt.forward()               # Move forward
-print(ro.get_side())           # Print robot orientation
+print(rt.get_side())           # Print robot orientation
 
 
 input()  # to prevent close plot window

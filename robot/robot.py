@@ -92,11 +92,7 @@ class RobotBase:
         if not mapfile:
             mapfile = ''
         else:  # checks mapfile
-            try:
-                mapfile_check(mapfile)
-            except (ValueError, MapfileExtensionError, FileNotFoundError) as e:
-                eprint(e)
-                return
+            mapfile_check(mapfile)
 
         self.mapfile = mapfile
 
@@ -127,11 +123,8 @@ class RobotBase:
          - r = The handle to object of class Robot
         """
 
-        try:
-            self.robot_check()
-            self.hRobotEngine.step(side)
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.step(side)
 
     def mark(self):
         """
@@ -144,11 +137,8 @@ class RobotBase:
          - r = The handle to object of class Robot
         """
 
-        try:
-            self.robot_check()
-            self.hRobotEngine.mark()
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.mark()
 
     def is_mark(self):
         """
@@ -164,11 +154,8 @@ class RobotBase:
         :return boolean
         """
 
-        try:
-            self.robot_check()
-            return self.hRobotEngine.is_mark()
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        return self.hRobotEngine.is_mark()
 
     def get_tmpr(self):
         """
@@ -183,11 +170,8 @@ class RobotBase:
         :return temperature ( double )
         """
 
-        try:
-            self.robot_check()
-            return self.hRobotEngine.get_tmpr()
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        return self.hRobotEngine.get_tmpr()
 
     def robot_check(self):
         """
@@ -225,11 +209,8 @@ class Robot(RobotBase):
          - r = The handle to object of class Robot
         """
 
-        try:
-            self.robot_check()
-            self.hRobotEngine.step(side)
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.step(side)
 
     def is_bord(self, side=None):
         """
@@ -246,11 +227,8 @@ class Robot(RobotBase):
         :return: 
         """
 
-        try:
-            self.robot_check()
-            return self.hRobotEngine.is_bord(side)
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        return self.hRobotEngine.is_bord(side)
 
 
 class RobotRelBase(RobotBase):
@@ -275,14 +253,11 @@ class RobotRelBase(RobotBase):
           there is a "breakdown" of the robot )
         """
 
-        try:
-            self.robot_check()
+        self.robot_check()
 
-            side = self.hRobotEngine.get_side_()
+        side = self.hRobotEngine.get_side_()
 
-            self.hRobotEngine.step(side)
-        except RobotException as e:
-            eprint(e)
+        self.hRobotEngine.step(side)
 
     def get_side(self):
         """
@@ -300,11 +275,8 @@ class RobotRelBase(RobotBase):
             - current direction of the robot
         """
 
-        try:
-            self.robot_check()
-            return self.hRobotEngine.get_side()
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        return self.hRobotEngine.get_side()
 
 
 class RobotOrt(RobotRelBase):
@@ -345,12 +317,8 @@ class RobotOrt(RobotRelBase):
             - - Works deployed to the left at 90 degrees
         """
 
-        try:
-            self.robot_check()
-
-            self.hRobotEngine.rot('Left')
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.rot('Left')
 
     def right(self):
         """
@@ -367,11 +335,8 @@ class RobotOrt(RobotRelBase):
         - - robot deployed to the right at 90 degrees
         """
 
-        try:
-            self.robot_check()
-            self.hRobotEngine.rot('Right')
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.rot('Right')
 
     def is_bord(self):
         """
@@ -390,14 +355,11 @@ class RobotOrt(RobotRelBase):
         :return:
         """
 
-        try:
-            self.robot_check()
+        self.robot_check()
 
-            side = self.hRobotEngine.get_side_()
+        side = self.hRobotEngine.get_side_()
 
-            return self.hRobotEngine.is_bord(side)
-        except RobotException as e:
-            eprint(e)
+        return self.hRobotEngine.is_bord(side)
 
 
 class RobotRot(RobotRelBase):
@@ -446,12 +408,8 @@ class RobotRot(RobotRelBase):
         :param side:
         """
 
-        try:
-            self.robot_check()
-
-            self.hRobotEngine.rot(side)
-        except RobotException as e:
-            eprint(e)
+        self.robot_check()
+        self.hRobotEngine.rot(side)
 
     def is_bord(self, side=None):
         """
@@ -470,30 +428,27 @@ class RobotRot(RobotRelBase):
                = 0 (false) - otherwise
         """
 
-        try:
-            self.robot_check()
+        self.robot_check()
 
-            abs_side = self.hRobotEngine.get_side_()
+        abs_side = self.hRobotEngine.get_side_()
 
-            abs_side = encode_side(abs_side)
+        abs_side = encode_side(abs_side)
 
-            if side:
-                side = str.upper(side)
-            else:
-                raise SideRotValueError
+        if side:
+            side = str.upper(side)
+        else:
+            raise SideRotValueError
 
-            if side in ('LEFT', 'L'):
-                abs_side = (abs_side - 1) % 4
-            elif side in ('RIGHT', 'R'):
-                abs_side = (abs_side + 1) % 4
-            elif side in ('FORWARD', 'F'):
-                # direction remains the same
-                pass
-            else:
-                raise SideRotValueError
+        if side in ('LEFT', 'L'):
+            abs_side = (abs_side - 1) % 4
+        elif side in ('RIGHT', 'R'):
+            abs_side = (abs_side + 1) % 4
+        elif side in ('FORWARD', 'F'):
+            # direction remains the same
+            pass
+        else:
+            raise SideRotValueError
 
-            abs_side = decode_side(abs_side)
+        abs_side = decode_side(abs_side)
 
-            return self.hRobotEngine.is_bord(abs_side)
-        except RobotException as e:
-            eprint(e)
+        return self.hRobotEngine.is_bord(abs_side)

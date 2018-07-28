@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 from .robot_engine import RobotEngine
-from .robot_engine.exeptions import (RobotException, WindowClosedError,
-                                     MapfileExtensionError, NotSaveError,
+from .robot_engine.exeptions import (WindowClosedError,
+                                     NotSaveError,
                                      SideRotValueError)
-from .robot_engine.helpers import eprint, mapfile_check
+from .robot_engine.helpers import mapfile_check
 from .robot_engine import star_control
 from .robot_engine.encode_side import encode_side
 from .robot_engine.decode_side import decode_side

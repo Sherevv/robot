@@ -141,7 +141,7 @@ class Body:
         else:
             raise ValueError()
 
-        # self.hFig.canvas.draw()
+        self.hFig.canvas.draw()
 
     def meas(self):
         """

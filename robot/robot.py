@@ -11,7 +11,7 @@ from .robot_engine.decode_side import decode_side
 
 class RobotBase:
 
-    def __init__(self, mapfile=None):
+    def __init__(self, mapfile=None, delay=0.5, effects=True):
         """
         Robot - The constructor of a class
 
@@ -97,8 +97,11 @@ class RobotBase:
         self.mapfile = mapfile
 
         self.hRobotEngine = None
+        self.robot_type = None
 
         self.init_data()
+
+        self.hRobotEngine = RobotEngine(self.mapfile, self.robot_type, delay, effects)
 
         if self.hRobotEngine:
             self.hRobotEngine.hField.hFig.robotdata = self
@@ -196,7 +199,7 @@ class Robot(RobotBase):
         Initialize data
         :return:
         """
-        self.hRobotEngine = RobotEngine(self.mapfile, 'Robot')
+        self.robot_type = 'Robot'
 
     def step(self, side):
         """step - Moves the Robot on one step to the set side
@@ -300,7 +303,7 @@ class RobotOrt(RobotRelBase):
         Initialize data
         :return:
         """
-        self.hRobotEngine = RobotEngine(self.mapfile, 'RobotOrt')
+        self.robot_type = 'RobotOrt'
 
     def left(self):
         """
@@ -390,7 +393,7 @@ class RobotRot(RobotRelBase):
         """
         Initialize data
         """
-        self.hRobotEngine = RobotEngine(self.mapfile, 'RobotRot')
+        self.robot_type = 'RobotRot'
 
     def rot(self, side=None):
         """

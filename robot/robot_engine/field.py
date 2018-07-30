@@ -128,7 +128,16 @@ class Field(object):
         with open(os.path.join(self.obj.fPath, self.obj.fName), 'rb') as f:
             r = pickle.load(f)
 
-        self.size = r['size']
+        self.size = r.get('size')
+
+        if r.get('delay'):
+            if self.obj.delay != 0:
+                self.set_delay(r.get('delay'))
+            else:
+                self.obj.delay_def = r.get('delay')
+
+        if r.get('effects') is not None:
+            self.obj.isEffectOn = r.get('effects')
 
         self.grid_delete()
         self.markers_delete()
@@ -193,7 +202,9 @@ class Field(object):
             'hRobot_position': self.hRobot.position,
             'robot_type': self.obj.robotType,
             'isFrame': True if self.hFrame else False,
-            'size': self.size
+            'size': self.size,
+            'delay': self.obj.delay_def,
+            'effects': self.obj.isEffectOn
         }
 
         filepath = save_file(self.obj.fName)

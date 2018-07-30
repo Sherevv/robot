@@ -2,7 +2,7 @@ import time
 import numpy as np
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-from source.robot.robot.robot_engine.helpers import encode_side
+from .helpers import encode_side
 
 
 def rot_data(x_data=None, y_data=None, phi=None, point=None):

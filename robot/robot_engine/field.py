@@ -596,3 +596,54 @@ class Field(object):
         self.hRobot.delay = delay
         self.obj.delay = delay
         self.obj.delay_def = delay
+
+    def add_grid_column(self):
+        """ Add one column to the field """
+
+        tool = self.hFig.canvas.manager.toolmanager.get_tool('FrameTool')
+        if tool.toggled is True:
+            self._trigger_tool('FrameTool')
+        plt.cla()
+        self.size[0] += 1
+        self.draw()
+
+    def remove_grid_column(self):
+        """ Remove one column from the field """
+
+        tool = self._get_tool('FrameTool')
+        if tool.toggled is True:
+            self._trigger_tool('FrameTool')
+
+        self.size[0] -= 1
+        plt.cla()
+        self.draw()
+
+    def add_grid_row(self):
+        """ Add one row to the field """
+
+        tool = self._get_tool('FrameTool')
+        if tool.toggled is True:
+            self._trigger_tool('FrameTool')
+
+        plt.cla()
+        self.size[1] += 1
+        self.draw()
+
+    def remove_grid_row(self):
+        """ Remove one row from the field """
+
+        tool = self._get_tool('FrameTool')
+        if tool.toggled is True:
+            self._trigger_tool('FrameTool')
+
+        self.size[1] -= 1
+        plt.cla()
+        self.draw()
+
+    def _trigger_tool(self, name):
+        """ Trigger tool by name """
+        self.hFig.canvas.manager.toolmanager.trigger_tool(name)
+
+    def _get_tool(self, name):
+        """ Get tool by name """
+        return self.hFig.canvas.manager.toolmanager.get_tool(name)

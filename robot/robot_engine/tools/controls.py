@@ -35,10 +35,7 @@ class WidthPlusTool(ToolBaseCustom):
 
     def trigger(self, *args, **kwargs):
         print('add column')
-
-        plt.cla()
-        self.f.size[0] += 1
-        self.f.draw()
+        self.f.add_grid_column()
 
 
 class WidthMinusTool(ToolBaseCustom):
@@ -49,14 +46,12 @@ class WidthMinusTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-delete-column-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('drop column')
 
         if self.f.size[0] > 1:
-            self.f.size[0] -= 1
-            plt.cla()
-            self.f.draw()
+            print('drop column')
+            self.f.remove_grid_column()
         else:
-            print('cant drop')
+            print('can\'t drop')
 
 
 class HeightPlusTool(ToolBaseCustom):
@@ -67,11 +62,8 @@ class HeightPlusTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-add-row-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('add column')
-
-        plt.cla()
-        self.f.size[1] += 1
-        self.f.draw()
+        print('add row')
+        self.f.add_grid_row()
 
 
 class HeightMinusTool(ToolBaseCustom):
@@ -82,14 +74,12 @@ class HeightMinusTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-delete-row-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Drop row')
 
         if self.f.size[1] > 1:
-            self.f.size[1] -= 1
-            plt.cla()
-            self.f.draw()
+            print('drop row')
+            self.f.remove_grid_row()
         else:
-            print('cant drop')
+            print('can\'t drop')
 
 
 class RemoveBordersTool(ToolBaseCustom):

@@ -379,7 +379,7 @@ class Field(object):
         if self.obj.is_out() or self.obj.outMarkPos.size:
             raise EditFieldOutError
 
-    def window_button_motion(self):
+    def restore_serviceable(self):
         """
         'Captures' robot and drags it with the left mouse button pressed on the tip of the cursor
         """

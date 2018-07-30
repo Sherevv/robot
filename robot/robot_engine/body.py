@@ -273,7 +273,7 @@ class Draggable:
         contains, attrd = self.rect.contains(event)
         if not contains: return
 
-        self.r.hField.window_button_motion()
+        self.r.hField.restore_serviceable()
         self.rect.set_facecolor('b')
         x0, y0 = self.rect.center
         hands_coord = []

@@ -143,16 +143,16 @@ class Field(object):
         self.hAxes.set_ylim(-0.1, self.size[1] + 0.1)
         self.grid_create()
 
-        if r['isFrame'] is True:
+        if r.get('isFrame') is True:
             tool.trigger(self, None)
 
         self.obj.isServiceable = True
 
-        if r['robot_type'] == 'Robot':
+        if r.get('robot_type') == 'Robot':
             if not isinstance(self.obj.hRobot, BodyUndirected):
                 self.obj.hRobot.delete()
                 self.obj.hRobot = BodyUndirected([0, 0], self.hFig)
-        elif r['robot_type'] in ['RobotOrt', 'RobotRot']:
+        elif r.get('robot_type') in ['RobotOrt', 'RobotRot']:
             if not isinstance(self.obj.hRobot, BodyOriented):
                 self.obj.hRobot.delete()
                 self.obj.hRobot = BodyOriented([0, 0], self.hFig)
@@ -160,19 +160,19 @@ class Field(object):
             raise RobotTypeError
 
         # restore robot object on the field
-        self.obj.hRobot.shift(r['hRobot_position'], 'punct')
+        self.obj.hRobot.shift(r.get('hRobot_position', (0, 0)), 'punct')
 
         # restore initial borders
-        self.hVerBord = r['hVerBord']
-        self.hHorBord = r['hHorBord']
-        self.bord_rest()
+        self.hVerBord = r.get('hVerBord')
+        self.hHorBord = r.get('hHorBord')
+        self.borders_restore()
 
         # restore initial markers
         self.obj.outMarkPos = np.empty((0, 2), int)
-        self.hMark = r['hMark']
-        self.mark_rest()
+        self.hMark = r.get('hMark')
+        self.markers_restore()
 
-        self.tMap = r['tMap']
+        self.tMap = r.get('tMap')
 
         del_star_to_end(self.hFig)
 
@@ -186,9 +186,9 @@ class Field(object):
         in the obj object, and in the name field ( p = frames )
         """
         r = {
-            'hVerBord': self.copy_for_rest(self.hVerBord),
-            'hHorBord': self.copy_for_rest(self.hHorBord),
-            'hMark': self.copy_for_rest(self.hMark),
+            'hVerBord': self.copy_for_restore(self.hVerBord),
+            'hHorBord': self.copy_for_restore(self.hHorBord),
+            'hMark': self.copy_for_restore(self.hMark),
             'tMap': self.tMap,
             'hRobot_position': self.hRobot.position,
             'robot_type': self.obj.robotType,
@@ -245,7 +245,7 @@ class Field(object):
             line = GridLine([0, n], [y, y], 'hor', self.hFig, self.hAxes)
             self.gridLines.append(line)
 
-    def bord_rest(self):
+    def borders_restore(self):
         """ Restore borders """
 
         for ix in range(self.hHorBord.shape[0]):
@@ -262,7 +262,7 @@ class Field(object):
                     ydata = [iy, iy + 1]
                     self.hVerBord[ix][iy] = Border(xdata, ydata, self.hFig, self.hAxes)
 
-    def copy_for_rest(self, arr):
+    def copy_for_restore(self, arr):
         """ Create an array with boolean values """
         dest = np.empty(arr.shape, dtype=object)
         for i in range(arr.shape[0]):
@@ -273,7 +273,7 @@ class Field(object):
                     dest[i][j] = False
         return dest
 
-    def mark_rest(self):
+    def markers_restore(self):
         """ Restore markers on the field """
 
         for i in range(self.hMark.shape[0]):
@@ -467,7 +467,7 @@ class Field(object):
         if (0.8 < xd or xd < 0.2) or (0.2 > yd or yd > 0.8):
             return
 
-        # xf, yf - левого нижнего угла клетки
+        # xf, yf - lower left corner of the cage
         i = int(xf)
         j = int(yf)
 

@@ -5,8 +5,7 @@ from .robot_engine.exeptions import (WindowClosedError,
                                      SideRotValueError)
 from .robot_engine.helpers import mapfile_check
 from .robot_engine import star_control
-from .robot_engine.encode_side import encode_side
-from .robot_engine.decode_side import decode_side
+from .robot_engine.helpers import decode_side, encode_side
 
 
 class RobotBase:

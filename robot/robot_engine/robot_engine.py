@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from .body.body4 import Body4
 from .body.body1 import Body1
 from .marker import Marker
-from .decode_side import decode_side
+from .helpers import decode_side
 from .star_control import is_star_to_end
 from .exeptions import *
 from .field import Field

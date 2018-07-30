@@ -1,6 +1,6 @@
 import sys
 import os
-from .exeptions import MapfileExtensionError
+from .exeptions import MapfileExtensionError, SideValueError
 
 
 def eprint(*args, **kwargs):
@@ -24,3 +24,36 @@ def mapfile_check(mapfile):
 
     if not os.path.isfile(mapfile):
         raise FileNotFoundError('The file ' + mapfile + ' is non found')
+
+
+def decode_side(side):
+    """
+    Return side letter by index
+    :param side:  0  |  1  |  2  |  3
+    :return:     'n' | 'o' | 's' | 'w'
+    """
+
+    side_list = ['n', 'o', 's', 'w']
+    try:
+        return side_list[side]
+    except IndexError:
+        raise SideValueError
+
+
+def encode_side(side):
+    """
+    Return side index by letter
+    :param side:  'n' | 'o' | 's' | 'w'
+    :return:       0  |  1  |  2  |  3
+    """
+
+    if side and isinstance(side, str):
+        side = str.lower(side)
+    else:
+        raise SideValueError
+
+    side_list = ['n', 'o', 's', 'w']
+    try:
+        return side_list.index(side)
+    except IndexError:
+        raise SideValueError

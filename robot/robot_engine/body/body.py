@@ -2,7 +2,7 @@ import time
 import numpy as np
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-from ..encode_side import encode_side
+from ..helpers import encode_side
 
 
 class Body:

@@ -115,10 +115,6 @@ class Field(object):
         self.hAxes.set_ylim(-0.1, self.size[1] + 0.1)
         self.hRobot = self.body([0, 0], self.hFig)
 
-        tool = self.hFig.canvas.manager.toolmanager.get_tool('FrameTool')
-        if tool.toggled is False:
-            tool.trigger(self, None)
-
         self.obj.hRobot = self.hRobot
         self.grid_create()
 
@@ -142,18 +138,18 @@ class Field(object):
         self.grid_delete()
         self.markers_delete()
         self.borders_delete()
-        self.frame_delete()
 
-        tool = self.hFig.canvas.manager.toolmanager.get_tool('FrameTool')
+        tool = self._get_tool('FrameTool')
         if tool.toggled is True:
-            tool.trigger(self, None)
+            tool.image = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icons8-text-box-32.png')
+            self._trigger_tool('FrameTool')  # call self.frame_delete()
+
+        if r.get('isFrame') is True:
+            self._trigger_tool('FrameTool')
 
         self.hAxes.set_xlim(-0.1, self.size[0] + 0.1)
         self.hAxes.set_ylim(-0.1, self.size[1] + 0.1)
         self.grid_create()
-
-        if r.get('isFrame') is True:
-            tool.trigger(self, None)
 
         self.obj.isServiceable = True
 

@@ -185,7 +185,7 @@ class Field(object):
 
         del_star_to_end(self.hFig)
 
-    def save(self):
+    def save(self, dialog=True):
         """
         In the CURRENT folder saves the current situation in a Mat file with the name of the person.name's
         (or in another file selected in the dialog) in the variable p, if
@@ -207,13 +207,17 @@ class Field(object):
             'effects': self.obj.isEffectOn
         }
 
-        filepath = save_file(self.obj.fName)
+        if dialog:
 
-        if not filepath:
-            return False
+            filepath = save_file(self.obj.fName)
 
-        self.obj.fPath = os.path.dirname(filepath)
-        self.obj.fName = os.path.basename(filepath)
+            if not filepath:
+                return False
+
+            self.obj.fPath = os.path.dirname(filepath)
+            self.obj.fName = os.path.basename(filepath)
+        else:
+            filepath = os.path.join(self.obj.fPath, self.obj.fName)
 
         with open(filepath, 'wb') as f:
             pickle.dump(r, f)
@@ -313,6 +317,8 @@ class Field(object):
                 if self.hVerBord[iy][ix]:
                     self.hVerBord[iy][ix].delete()
                     self.hVerBord[iy][ix] = False
+        self.hFig.canvas.draw()
+        add_star_to_end(self.hFig)
 
     def markers_delete(self):
         """ Remove all markers from the field """
@@ -322,6 +328,8 @@ class Field(object):
                 if self.hMark[i][j]:
                     self.hMark[i][j].delete()
                     self.hMark[i][j] = False
+        self.hFig.canvas.draw()
+        add_star_to_end(self.hFig)
 
     def frame_create(self):
         """ Show field frame """

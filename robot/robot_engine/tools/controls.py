@@ -9,7 +9,8 @@ ICON_DIR = os.path.dirname(os.path.abspath(__file__))  # Current dir
 class RobotTool(object):
     @property
     def r(self):
-        return get_current_field()
+        gca = plt.gca()
+        return gca.robotdata['r']
 
     @property
     def f(self):
@@ -26,8 +27,7 @@ class ToolToggleBaseCustom(ToolToggleBase, RobotTool):
 
 
 class WidthPlusTool(ToolBaseCustom):
-    """Add one column to field"""
-    # keyboard shortcut
+    """ Add one column to field """
     default_keymap = 'w'
     description = 'Add column'
     group = 'navigation'
@@ -42,8 +42,7 @@ class WidthPlusTool(ToolBaseCustom):
 
 
 class WidthMinusTool(ToolBaseCustom):
-    """Drop one column from field"""
-    # keyboard shortcut
+    """ Drop one column from field """
     default_keymap = 'e'
     description = 'Remove column'
     group = 'navigation'
@@ -61,8 +60,7 @@ class WidthMinusTool(ToolBaseCustom):
 
 
 class HeightPlusTool(ToolBaseCustom):
-    """Add one row to field"""
-    # keyboard shortcut
+    """ Add one row to field """
     default_keymap = 'h'
     description = 'Add row'
     group = 'navigation'
@@ -77,8 +75,7 @@ class HeightPlusTool(ToolBaseCustom):
 
 
 class HeightMinusTool(ToolBaseCustom):
-    """Drop one row from field"""
-    # keyboard shortcut
+    """ Drop one row from field """
     default_keymap = 'j'
     description = 'Remove row'
     group = 'navigation'
@@ -95,9 +92,34 @@ class HeightMinusTool(ToolBaseCustom):
             print('cant drop')
 
 
+class RemoveBordersTool(ToolBaseCustom):
+    """ Remove all borders from field """
+    default_keymap = 'ctrl+b'
+    description = 'Remove borders'
+    group = 'navigation'
+    image = os.path.join(ICON_DIR, 'icons8-close-program-32.png')
+
+    def trigger(self, *args, **kwargs):
+        print('Remove borders')
+
+        self.f.borders_delete()
+
+
+class RemoveMarkersTool(ToolBaseCustom):
+    """ Remove all markers from field """
+    default_keymap = 'ctrl+m'
+    description = 'Remove markers'
+    group = 'navigation'
+    image = os.path.join(ICON_DIR, 'icons8-broom-32.png')
+
+    def trigger(self, *args, **kwargs):
+        print('Remove markers')
+
+        self.f.markers_delete()
+
+
 class SaveTool(ToolBaseCustom):
-    """Save field to file"""
-    # keyboard shortcut
+    """ Save field to file """
     default_keymap = 's'
     description = 'Save field'
     group = 'io'
@@ -106,12 +128,24 @@ class SaveTool(ToolBaseCustom):
     def trigger(self, *args, **kwargs):
         print('Save field')
 
+        self.f.save(False)
+
+
+class SaveAsTool(ToolBaseCustom):
+    """ Save field to file """
+    default_keymap = 'ctrl+s'
+    description = 'SaveAs field'
+    group = 'io'
+    image = os.path.join(ICON_DIR, 'icons8-save-as-32.png')
+
+    def trigger(self, *args, **kwargs):
+        print('SaveAs field')
+
         self.f.save()
 
 
 class RestoreTool(ToolBaseCustom):
-    """Restore field from file"""
-    # keyboard shortcut
+    """ Restore field from file """
     default_keymap = 'r'
     description = 'Restore field'
     group = 'io'
@@ -124,8 +158,7 @@ class RestoreTool(ToolBaseCustom):
 
 
 class LoadTool(ToolBaseCustom):
-    """Load field from file"""
-    # keyboard shortcut
+    """ Load field from file """
     default_keymap = 'ctrl+l'
     description = 'Load field'
     group = 'io'
@@ -138,8 +171,7 @@ class LoadTool(ToolBaseCustom):
 
 
 class DelayTool(ToolToggleBaseCustom):
-    """Remove delay"""
-    # keyboard shortcut
+    """ Remove delay """
     default_keymap = 'd'
     description = 'Remove delay'
     group = 'zoompan'
@@ -157,8 +189,7 @@ class DelayTool(ToolToggleBaseCustom):
 
 
 class ValuesTool(ToolToggleBaseCustom):
-    """Show values on field"""
-    # keyboard shortcut
+    """ Show values on field """
     default_keymap = 't'
     description = 'Show values'
     group = 'zoompan'
@@ -174,8 +205,7 @@ class ValuesTool(ToolToggleBaseCustom):
 
 
 class FrameTool(ToolToggleBaseCustom):
-    """Drop one row from field"""
-    # keyboard shortcut
+    """ Drop one row from field """
     default_keymap = 'b'
     description = 'Toggle frame'
     group = 'zoompan'
@@ -193,6 +223,7 @@ class FrameTool(ToolToggleBaseCustom):
 
 
 def clear_toolbar(toolbar):
+    """ Clear toolbar from unused tools """
     def_tools = ['home', 'back', 'forward',
                  'zoom', 'pan',
                  # 'subplots',
@@ -215,14 +246,10 @@ def clear_toolbar(toolbar):
 
 
 def add_tool_to_navigation(cls, fig):
+    """ Add tools to toolbar """
     fig.canvas.manager.toolmanager.add_tool(cls.__name__, cls)
     fig.canvas.manager.toolbar.add_tool(cls.__name__, cls.group, 1)
 
 
-default_tools = [WidthPlusTool, WidthMinusTool, HeightPlusTool, HeightMinusTool, FrameTool, ValuesTool, DelayTool,
-                 RestoreTool, SaveTool, LoadTool]
-
-
-def get_current_field():
-    gca = plt.gca()
-    return gca.robotdata['r']
+default_tools = [WidthPlusTool, WidthMinusTool, HeightPlusTool, HeightMinusTool, RemoveBordersTool, RemoveMarkersTool, FrameTool, ValuesTool, DelayTool,
+                 RestoreTool, SaveTool, SaveAsTool, LoadTool]

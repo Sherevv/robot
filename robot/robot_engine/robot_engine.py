@@ -1,3 +1,4 @@
+import os
 import time
 import numpy as np
 import matplotlib
@@ -152,8 +153,10 @@ class RobotEngine:
             if not self.hField.load():  # User press "Cancel"
                 self.hField.save()
         else:
-            self.fName = mapfile
+            self.fPath = os.path.dirname(mapfile)
+            self.fName = os.path.basename(mapfile)
             self.hField.restore()
+            self.hField.hFig.canvas.set_window_title(self.robotType + ' - ' + mapfile)
 
         plt.show(block=False)
 

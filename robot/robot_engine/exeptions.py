@@ -55,3 +55,13 @@ class WindowClosedError(RobotException):
 class MapfileExtensionError(RobotException):
     """The map file name should have extension .map"""
     message = __doc__
+
+
+class EditFieldOutError(RobotException):
+    """
+    You cannot edit the field environment when the robot is outside
+    the visible part of the field or markers have been set behind it.
+    To be able to edit the situation, you need to restore the result
+    of the last save by pressing CTRL+R
+    """
+    message = __doc__

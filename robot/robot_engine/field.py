@@ -11,10 +11,9 @@ from .border import Border
 from .gridline import GridLine
 from .marker import Marker
 from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
-from .helpers import eprint
 from .star_control import *
 from .dialog import save_file, open_file, input_integer
-from .exeptions import RobotTypeError
+from .exeptions import RobotTypeError, EditFieldOutError
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 
@@ -370,22 +369,15 @@ class Field(object):
             self.obj.hRobot.shift([0, 0], 'punct')
             print('Robot moved to left bottom corner')
 
-    def window_button_down(self, h=None, d=None, ):
+    def _check_out_state(self):
         """
         Prevents the possibility of editing the environment when
         the robot is outside the field or markers have been set
-        off the pitch
+        out of the visible field
         """
-        # TODO: make work
 
-        if self.outside == 'none' and (self.is_out == 1 or not self.outMarkPos):
-            eprint(
-                'You cannot edit the field environment when the robot is outside '
-                'the visible part of the field or markers have been set behind it. '
-                'To be able to edit the situation, you need to restore the result '
-                'of the last save by pressing CTRL+R')
-            return
-        pass
+        if self.obj.is_out() or self.obj.outMarkPos.size:
+            raise EditFieldOutError
 
     def window_button_motion(self):
         """
@@ -422,6 +414,8 @@ class Field(object):
             if i < 1 or i >= self.size[0]:
                 return
 
+            self._check_out_state()
+
             xdata = [x, x]
             ydata = [y, y + 1]
 
@@ -440,6 +434,8 @@ class Field(object):
 
             if j < 1 or j >= self.size[1]:
                 return
+
+            self._check_out_state()
 
             xdata = [x, x + 1]
             ydata = [y, y]
@@ -491,6 +487,8 @@ class Field(object):
 
         if self.hRobot.position[0] == i and self.hRobot.position[1] == j:
             return
+
+        self._check_out_state()
 
         if not self.hMark[i][j]:
             self.hMark[i][j] = Marker(xf, yf, self.hAxes)

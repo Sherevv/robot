@@ -236,14 +236,6 @@ class BodyBase:
         patch.set_facecolor(clr)
         self.hFig.canvas.draw()
 
-    def update_color(self, param, uclr):
-        clr = self.hCorp.get(param)
-        self.hCorp.set(param, uclr)
-        self.hFig.canvas.draw()
-        time.sleep(self.delay)
-        self.hCorp.set(param, clr)
-        self.hFig.canvas.draw()
-
 
 class Draggable:
     def __init__(self, corp, hands, figure, rob=None):

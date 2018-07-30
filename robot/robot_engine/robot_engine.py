@@ -8,7 +8,7 @@ from .body import BodyOriented
 from .marker import Marker
 from .helpers import decode_side
 from .star_control import is_star_to_end, add_star_to_end
-from .exeptions import *
+from ..exceptions import *
 from .field import Field
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'

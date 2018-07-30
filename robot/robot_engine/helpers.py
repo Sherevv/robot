@@ -1,6 +1,6 @@
 import sys
 import os
-from .exeptions import MapfileExtensionError, SideValueError
+from ..exceptions import MapfileExtensionError, SideValueError
 
 
 def eprint(*args, **kwargs):

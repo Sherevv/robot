@@ -13,7 +13,7 @@ from .marker import Marker
 from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
 from .star_control import *
 from .dialog import save_file, open_file, input_integer
-from .exeptions import RobotTypeError, EditFieldOutError
+from ..exceptions import RobotTypeError, EditFieldOutError
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 

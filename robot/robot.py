@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 from .robot_engine import RobotEngine
-from .robot_engine.exeptions import (WindowClosedError,
-                                     NotSaveError,
-                                     SideRotValueError)
+from .exceptions import (WindowClosedError,
+                         NotSaveError,
+                         SideRotValueError)
 from .robot_engine.helpers import mapfile_check
 from .robot_engine import star_control
 from .robot_engine.helpers import decode_side, encode_side

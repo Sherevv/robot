@@ -90,7 +90,7 @@ class RemoveBordersTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-close-program-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Remove borders')
+        print('remove borders')
 
         self.f.borders_delete()
 
@@ -103,7 +103,7 @@ class RemoveMarkersTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-broom-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Remove markers')
+        print('remove markers')
 
         self.f.markers_delete()
 
@@ -116,7 +116,7 @@ class SaveTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-save-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Save field')
+        print('save field')
 
         self.f.save(False)
 
@@ -129,7 +129,7 @@ class SaveAsTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-save-as-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('SaveAs field')
+        print('save field')
 
         self.f.save()
 
@@ -142,7 +142,7 @@ class RestoreTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-sync-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Restore field')
+        print('restore field')
 
         self.f.restore()
 
@@ -155,7 +155,7 @@ class LoadTool(ToolBaseCustom):
     image = os.path.join(ICON_DIR, 'icons8-open-32.png')
 
     def trigger(self, *args, **kwargs):
-        print('Load field')
+        print('load field')
 
         self.f.load()
 
@@ -241,5 +241,6 @@ def add_tool_to_navigation(cls, fig):
     fig.canvas.manager.toolbar.add_tool(cls.__name__, cls.group, 1)
 
 
-default_tools = [WidthPlusTool, WidthMinusTool, HeightPlusTool, HeightMinusTool, RemoveBordersTool, RemoveMarkersTool, FrameTool, ValuesTool, DelayTool,
+default_tools = [WidthPlusTool, WidthMinusTool, HeightPlusTool, HeightMinusTool, RemoveBordersTool, RemoveMarkersTool,
+                 FrameTool, ValuesTool, DelayTool,
                  RestoreTool, SaveTool, SaveAsTool, LoadTool]

@@ -5,8 +5,8 @@ import numpy as np
 import matplotlib
 import matplotlib.lines as mlines
 import matplotlib.pyplot as plt
-from .body.body4 import Body4
-from .body.body1 import Body1
+from .body import BodyUndirected
+from .body import BodyOriented
 from .border import Border
 from .gridline import GridLine
 from .marker import Marker
@@ -78,7 +78,7 @@ class Field(object):
         if size is not None:
             self.size = size
 
-        # сreate Figure
+        # create Figure
         self.hFig = plt.figure()
         plt.gca().set_aspect('equal')  # save field scale
         self.hAxes = self.hFig.add_subplot(111)
@@ -149,13 +149,13 @@ class Field(object):
         self.obj.isServiceable = True
 
         if r['robot_type'] == 'Robot':
-            if not isinstance(self.obj.hRobot, Body4):
+            if not isinstance(self.obj.hRobot, BodyUndirected):
                 self.obj.hRobot.delete()
-                self.obj.hRobot = Body4([0, 0], self.hFig)
+                self.obj.hRobot = BodyUndirected([0, 0], self.hFig)
         elif r['robot_type'] in ['RobotOrt', 'RobotRot']:
-            if not isinstance(self.obj.hRobot, Body1):
+            if not isinstance(self.obj.hRobot, BodyOriented):
                 self.obj.hRobot.delete()
-                self.obj.hRobot = Body1([0, 0], self.hFig)
+                self.obj.hRobot = BodyOriented([0, 0], self.hFig)
         else:
             raise RobotTypeError
 

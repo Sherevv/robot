@@ -2,8 +2,8 @@ import time
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from .body.body4 import Body4
-from .body.body1 import Body1
+from .body import BodyUndirected
+from .body import BodyOriented
 from .marker import Marker
 from .helpers import decode_side
 from .star_control import is_star_to_end
@@ -136,9 +136,9 @@ class RobotEngine:
         self.fPath = ''
 
         if robot_type == 'Robot':
-            body = Body4
+            body = BodyUndirected
         elif robot_type in ['RobotOrt', 'RobotRot']:
-            body = Body1
+            body = BodyOriented
         else:
             raise RobotTypeValueError
 
@@ -241,9 +241,9 @@ class RobotEngine:
             raise SideValueError
 
         if self.isEffectOn:
-            if isinstance(self.hRobot, Body1):
+            if isinstance(self.hRobot, BodyOriented):
                 self.hRobot.is_bord()
-            elif isinstance(self.hRobot, Body4):
+            elif isinstance(self.hRobot, BodyUndirected):
                 self.hRobot.is_bord(side)
             else:
                 raise RobotTypeError

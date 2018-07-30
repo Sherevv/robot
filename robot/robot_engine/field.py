@@ -80,6 +80,7 @@ class Field(object):
 
         # create Figure
         self.hFig = plt.figure()
+        self.hFig.canvas.set_window_title(self.obj.robotType)
         plt.gca().set_aspect('equal')  # save field scale
         self.hAxes = self.hFig.add_subplot(111)
         self.gridLines = []
@@ -203,7 +204,7 @@ class Field(object):
             'effects': self.obj.isEffectOn
         }
 
-        if dialog:
+        if dialog or not self.obj._is_init_save:
 
             filepath = save_file(self.obj.fName)
 
@@ -212,6 +213,7 @@ class Field(object):
 
             self.obj.fPath = os.path.dirname(filepath)
             self.obj.fName = os.path.basename(filepath)
+
         else:
             filepath = os.path.join(self.obj.fPath, self.obj.fName)
 
@@ -220,6 +222,7 @@ class Field(object):
 
         self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + filepath)
         del_star_to_end(self.hFig)
+        self.obj._is_init_save = True
 
         return True
 

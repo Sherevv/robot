@@ -7,7 +7,7 @@ from .body import BodyUndirected
 from .body import BodyOriented
 from .marker import Marker
 from .helpers import decode_side
-from .star_control import is_star_to_end
+from .star_control import is_star_to_end, add_star_to_end
 from .exeptions import *
 from .field import Field
 
@@ -135,6 +135,7 @@ class RobotEngine:
         self.outside = 'none'
         self.hRobot = None
         self.fPath = ''
+        self.fName = ''
 
         if robot_type == 'Robot':
             body = BodyUndirected
@@ -147,11 +148,14 @@ class RobotEngine:
 
         self.hField = Field(self, body=body)
         self.hRobot.delay = self.delay_def
+        self._is_init_save = True
 
         if not mapfile:
             self.fName = 'untitled.map'
             if not self.hField.load():  # User press "Cancel"
-                self.hField.save()
+                if not self.hField.save():  # User press "Cancel"
+                    add_star_to_end(self.hField.hFig)
+                    self._is_init_save = False
         else:
             self.fPath = os.path.dirname(mapfile)
             self.fName = os.path.basename(mapfile)

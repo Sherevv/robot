@@ -148,14 +148,14 @@ class RobotEngine:
 
         self.hField = Field(self, body=body)
         self.hRobot.delay = self.delay_def
-        self._is_init_save = True
+        self.is_init_save = True
 
         if not mapfile:
             self.fName = 'untitled.map'
             if not self.hField.load():  # User press "Cancel"
                 if not self.hField.save():  # User press "Cancel"
                     add_star_to_end(self.hField.hFig)
-                    self._is_init_save = False
+                    self.is_init_save = False
         else:
             self.fPath = os.path.dirname(mapfile)
             self.fName = os.path.basename(mapfile)

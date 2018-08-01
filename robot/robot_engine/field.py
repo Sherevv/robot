@@ -121,7 +121,7 @@ class Field(object):
     def restore(self):
         """ Create field from saved data """
 
-        if not self.obj._is_init_save:
+        if not self.obj.is_init_save:
             self.load()
             return
 
@@ -207,7 +207,7 @@ class Field(object):
             'effects': self.obj.isEffectOn
         }
 
-        if dialog or not self.obj._is_init_save:
+        if dialog or not self.obj.is_init_save:
 
             filepath = save_file(self.obj.fName)
 
@@ -225,7 +225,7 @@ class Field(object):
 
         self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + filepath)
         del_star_to_end(self.hFig)
-        self.obj._is_init_save = True
+        self.obj.is_init_save = True
 
         return True
 

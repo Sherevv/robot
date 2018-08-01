@@ -36,6 +36,7 @@ class Bug:
         """
         self.r = Robot(map_file)
         self.r.hRobotEngine.hField.set_delay(delay)
+        self.r.hRobotEngine.isEffectOn = False
         self.field_size = self.r.hRobotEngine.hField.size
 
         self.hVerBord = self.r.hRobotEngine.hField.hVerBord

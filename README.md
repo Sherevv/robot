@@ -6,20 +6,20 @@ Robot on the plaid field
 
 # Table of Content
 
-* [Requirements](#Requirements)
-* [Installation](#Installation)
-* [Robot](#Class-robot)
-    * [Robot methods](#Robot-methods)
-* [RobotOrt](#RobotOrt)
-    * [RobotOrt methods](#RobotOrt-methods)
-* [RobotRot](#RobotRot)
-    * [RobotRot methods](#RobotRot-methods)
-* [Basic usage](#Basic-usage)
-* [Usage with python command line](#Usage-with-python-command-line)
-* [Working with the interface](#Working-with-the-interface)
-    * [Control buttons](#Control-buttons)
-    * [Keyboard control](#Keyboard-control)    
-* [Bug](#Bug)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Robot](#class-robot)
+    * [Robot methods](#robot-methods)
+* [RobotOrt](#robotort)
+    * [RobotOrt methods](#robotort-methods)
+* [RobotRot](#robotrot)
+    * [RobotRot methods](#robotrot-methods)
+* [Basic usage](#basic-usage)
+* [Usage with python command line](#usage-with-python-command-line)
+* [Working with the interface](#working-with-the-interface)
+    * [Control buttons](#control-buttons)
+    * [Keyboard control](#keyboard-control)    
+* [Bug](#bug)
 
 # Requirements
 

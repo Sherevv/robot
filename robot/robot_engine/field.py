@@ -121,6 +121,10 @@ class Field(object):
     def restore(self):
         """ Create field from saved data """
 
+        if not self.obj._is_init_save:
+            self.load()
+            return
+
         with open(os.path.join(self.obj.fPath, self.obj.fName), 'rb') as f:
             r = pickle.load(f)
 

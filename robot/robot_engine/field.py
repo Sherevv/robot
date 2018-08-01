@@ -136,9 +136,6 @@ class Field(object):
             else:
                 self.obj.delay_def = r.get('delay')
 
-        if r.get('effects') is not None:
-            self.obj.isEffectOn = r.get('effects')
-
         self.grid_delete()
         self.markers_delete()
         self.borders_delete()
@@ -203,8 +200,7 @@ class Field(object):
             'robot_type': self.obj.robotType,
             'isFrame': True if self.hFrame else False,
             'size': self.size,
-            'delay': self.obj.delay_def,
-            'effects': self.obj.isEffectOn
+            'delay': self.obj.delay_def
         }
 
         if dialog or not self.obj.is_init_save:

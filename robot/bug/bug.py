@@ -29,12 +29,12 @@ class Bug:
     Idea from http://buglab.ru
     """
 
-    def __init__(self, map_file=None, delay=0.0001, effects=False):
+    def __init__(self, map_file=None, delay=0.0001):
         """
         Create field for bug (robot)
         :param map_file: map-file path string
         """
-        self.r = Robot(map_file, effects=effects)
+        self.r = Robot(map_file)
         self.r.hRobotEngine.hField.set_delay(delay)
         self.field_size = self.r.hRobotEngine.hField.size
 

@@ -10,7 +10,7 @@ from .robot_engine.helpers import decode_side, encode_side
 
 class RobotBase:
 
-    def __init__(self, mapfile=None, delay=0.5, effects=True):
+    def __init__(self, mapfile=None, delay=0.5):
         """
         Robot - The constructor of a class
 
@@ -100,7 +100,7 @@ class RobotBase:
 
         self.init_data()
 
-        self.hRobotEngine = RobotEngine(self.mapfile, self.robot_type, delay, effects)
+        self.hRobotEngine = RobotEngine(self.mapfile, self.robot_type, delay)
 
         if self.hRobotEngine:
             self.hRobotEngine.hField.hFig.robotdata = self

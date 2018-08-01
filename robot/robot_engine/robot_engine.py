@@ -95,7 +95,7 @@ class RobotEngine:
 
     """
 
-    def __init__(self, mapfile=None, robot_type=None, delay=None, effects=True):
+    def __init__(self, mapfile=None, robot_type=None, delay=None):
         """
         Robot class constructor
         Creates (or creates, if in the dialogue there is a failure) box with a robot
@@ -125,8 +125,6 @@ class RobotEngine:
         self.delay = self.delay_def
 
         self.isEffectOn = True
-        if not effects:
-            self.isEffectOn = False
 
         self.isServiceable = True
         self.diameter = 40
@@ -483,8 +481,10 @@ class RobotEngine:
         """ Disable delay """
         self.delay = 0
         self.hRobot.delay = 0
+        self.isEffectOn = False
 
     def delay_on(self):
         """ Enable delay """
         self.delay = self.delay_def
         self.hRobot.delay = self.delay_def
+        self.isEffectOn = True

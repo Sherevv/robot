@@ -10,7 +10,7 @@ from .robot_engine.helpers import decode_side, encode_side
 
 class RobotBase:
 
-    def __init__(self, mapfile=None, delay=None):
+    def __init__(self, mapfile=None, delay=None, params=None):
         """
         Robot - The constructor of a class
 
@@ -125,7 +125,7 @@ class RobotBase:
          - r = The handle to object of class Robot
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.step(side)
 
     def mark(self):
@@ -139,7 +139,7 @@ class RobotBase:
          - r = The handle to object of class Robot
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.mark()
 
     def is_mark(self):
@@ -156,7 +156,7 @@ class RobotBase:
         :return boolean
         """
 
-        self.robot_check()
+        self._robot_check()
         return self.hRobotEngine.is_mark()
 
     def get_tmpr(self):
@@ -172,10 +172,10 @@ class RobotBase:
         :return temperature ( double )
         """
 
-        self.robot_check()
+        self._robot_check()
         return self.hRobotEngine.get_tmpr()
 
-    def robot_check(self):
+    def _robot_check(self):
         """
         Make checks for correct robot work
         """
@@ -211,7 +211,7 @@ class Robot(RobotBase):
          - r = The handle to object of class Robot
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.step(side)
 
     def is_bord(self, side=None):
@@ -229,7 +229,7 @@ class Robot(RobotBase):
         :return: 
         """
 
-        self.robot_check()
+        self._robot_check()
         return self.hRobotEngine.is_bord(side)
 
 
@@ -255,7 +255,7 @@ class RobotRelBase(RobotBase):
           there is a "breakdown" of the robot )
         """
 
-        self.robot_check()
+        self._robot_check()
 
         side = self.hRobotEngine.get_side_()
 
@@ -277,7 +277,7 @@ class RobotRelBase(RobotBase):
             - current direction of the robot
         """
 
-        self.robot_check()
+        self._robot_check()
         return self.hRobotEngine.get_side()
 
 
@@ -319,7 +319,7 @@ class RobotOrt(RobotRelBase):
             - - Works deployed to the left at 90 degrees
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.rot('Left')
 
     def right(self):
@@ -337,7 +337,7 @@ class RobotOrt(RobotRelBase):
         - - robot deployed to the right at 90 degrees
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.rot('Right')
 
     def is_bord(self):
@@ -357,7 +357,7 @@ class RobotOrt(RobotRelBase):
         :return:
         """
 
-        self.robot_check()
+        self._robot_check()
 
         side = self.hRobotEngine.get_side_()
 
@@ -410,7 +410,7 @@ class RobotRot(RobotRelBase):
         :param side:
         """
 
-        self.robot_check()
+        self._robot_check()
         self.hRobotEngine.rot(side)
 
     def is_bord(self, side=None):
@@ -430,7 +430,7 @@ class RobotRot(RobotRelBase):
                = 0 (false) - otherwise
         """
 
-        self.robot_check()
+        self._robot_check()
 
         abs_side = self.hRobotEngine.get_side_()
 

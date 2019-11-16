@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="robot",
-    version='0.3.0',
+    version='0.3.1',
     author="Sherevv",
     author_email="sherevv@gmail.com",
     description="Robot on the cave field",
@@ -20,7 +20,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ),
     install_requires=[
-        'numpy==1.14.3',
-        'matplotlib==2.2.2'
+        'numpy==1.17.4',
+        'matplotlib==3.1.1'
     ]
 )

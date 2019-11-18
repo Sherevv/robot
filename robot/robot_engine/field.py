@@ -608,6 +608,33 @@ class Field(object):
         self.obj.delay = delay
         self.obj.delay_def = delay
 
+    def set_size(self, coln: int = None, rown: int = None):
+        """
+        Set field size
+        :param coln:int number of columns
+        :param rown:int number of rows
+        """
+        if coln is None:
+            coln = self.size[0]
+        if rown is None:
+            rown = self.size[1]
+
+        if not isinstance(coln, int) or not isinstance(rown, int):
+            raise FieldSizeTypeError
+        if coln < 1 or rown < 1:
+            raise FieldSizeValueError
+
+        frame = True if self.is_frame() else False
+        self.frame_off(frame)
+
+        plt.cla()
+        self.size = [coln, rown]
+        self.draw()
+
+        self.frame_on(frame)
+        self.hFig.canvas.draw()
+        add_star_to_end(self.hFig)
+
     def add_grid_column(self):
         """ Add one column to the field """
 

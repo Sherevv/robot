@@ -10,7 +10,7 @@ from .robot_engine.helpers import decode_side, encode_side
 
 class RobotBase:
 
-    def __init__(self, mapfile=None, delay=None, params=None):
+    def __init__(self, mapfile=None, delay=None, **params):
         """
         Robot - The constructor of a class
 
@@ -88,6 +88,7 @@ class RobotBase:
 
         hRobotEngine-reference to the object of the RobotEngine class (robot on a cellular field)
         """
+
         if not mapfile:
             mapfile = ''
         else:  # checks mapfile
@@ -100,7 +101,7 @@ class RobotBase:
 
         self.init_data()
 
-        self.hRobotEngine = RobotEngine(self.mapfile, self.robot_type, delay)
+        self.hRobotEngine = RobotEngine(self.mapfile, self.robot_type, delay, **params)
 
         if self.hRobotEngine:
             self.hRobotEngine.hField.hFig.robotdata = self

@@ -131,11 +131,11 @@ class Field(object):
         self.obj.hRobot = self.hRobot
         self.grid_create()
 
-    def restore(self):
+    def restore(self, is_delay=False, **params):
         """ Create field from saved data """
 
         if not self.obj.is_init_save:
-            self.load()
+            self.load(is_delay)
             return
 
         with open(os.path.join(self.obj.fPath, self.obj.fName), 'rb') as f:
@@ -143,11 +143,12 @@ class Field(object):
 
         self.size = r.get('size')
 
-        if r.get('delay'):
-            if self.obj.delay != 0:
-                self.set_delay(r.get('delay'))
-            else:
-                self.obj.delay_def = r.get('delay')
+        if not is_delay:
+            if r.get('delay'):
+                if self.obj.delay != 0:
+                    self.set_delay(r.get('delay'))
+                else:
+                    self.obj.delay_def = r.get('delay')
 
         self.grid_delete()
         self.markers_delete()
@@ -238,7 +239,7 @@ class Field(object):
 
         return True
 
-    def load(self):
+    def load(self, is_delay=False):
         """ Load field state from a map file """
 
         filepath = open_file(self.obj.fName, self.obj.fPath)
@@ -251,7 +252,7 @@ class Field(object):
 
         self.hFig.canvas.set_window_title(self.obj.robotType + ' - ' + filepath)
 
-        self.restore()
+        self.restore(is_delay)
 
         del_star_to_end(self.hFig)
 

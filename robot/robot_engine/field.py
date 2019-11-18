@@ -83,10 +83,9 @@ class Field(object):
                 self.size = size
 
         # create Figure
-        self.hFig = plt.figure()
+        self.hFig, self.hAxes = plt.subplots()
         self.hFig.canvas.set_window_title(self.obj.robotType)
         plt.gca().set_aspect('equal')  # save field scale
-        self.hAxes = self.hFig.add_subplot(111)
         self.gridLines = []
 
         # setup Toolbar
@@ -259,7 +258,7 @@ class Field(object):
         return True
 
     def grid_create(self):
-        """Create lines for grid"""
+        """ Create lines for grid """
 
         n = self.size[0]
         m = self.size[1]

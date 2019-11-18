@@ -146,7 +146,7 @@ class RobotEngine:
 
         self.fhBody = body
 
-        self.hField = Field(self, body=body)
+        self.hField = Field(self, body=body, size=params.get('size', None))
         self.hRobot.delay = self.delay_def
         self.is_init_save = True
 

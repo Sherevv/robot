@@ -19,7 +19,7 @@ matplotlib.rcParams['toolbar'] = 'toolmanager'
 
 
 class Field(object):
-    def __init__(self, obj, body=None, size=None):
+    def __init__(self, obj, body=None, size=None, frame: bool = True):
         """
         Creates a field and initiates the properties of the generated obj object
 
@@ -101,6 +101,14 @@ class Field(object):
         self.hFig.canvas.mpl_connect('key_press_event', self.window_key_press)
         self.draw()
 
+        if frame:
+            tool = self._get_tool('FrameTool')
+            if tool:
+                if tool.toggled is False:
+                    self._trigger_tool('FrameTool')
+            else:
+                self.frame_create()
+
     def draw(self):
         """ Create and draw field """
         self.hTexts = np.empty(self.size, dtype=object)
@@ -146,7 +154,7 @@ class Field(object):
         self.borders_delete()
 
         tool = self._get_tool('FrameTool')
-        if tool.toggled is True:
+        if tool and tool.toggled is True:
             tool.image = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icons8-text-box-32.png')
             self._trigger_tool('FrameTool')  # call self.frame_delete()
 
@@ -602,50 +610,101 @@ class Field(object):
     def add_grid_column(self):
         """ Add one column to the field """
 
-        tool = self.hFig.canvas.manager.toolmanager.get_tool('FrameTool')
-        if tool.toggled is True:
-            self._trigger_tool('FrameTool')
-        plt.cla()
-        self.size[0] += 1
-        self.draw()
+        if self.size[0] > 1:
+            frame = True if self.is_frame() else False
+            self.frame_off(frame)
+
+            plt.cla()
+            self.size[0] += 1
+            self.draw()
+
+            self.frame_on(frame)
+            self.hFig.canvas.draw()
+            add_star_to_end(self.hFig)
 
     def remove_grid_column(self):
         """ Remove one column from the field """
+        if self.size[0] > 1:
+            frame = True if self.is_frame() else False
+            self.frame_off(frame)
 
-        tool = self._get_tool('FrameTool')
-        if tool.toggled is True:
-            self._trigger_tool('FrameTool')
+            self.size[0] -= 1
+            plt.cla()
+            self.draw()
 
-        self.size[0] -= 1
-        plt.cla()
-        self.draw()
+            self.frame_on(frame)
+            self.hFig.canvas.draw()
+            add_star_to_end(self.hFig)
 
     def add_grid_row(self):
         """ Add one row to the field """
 
-        tool = self._get_tool('FrameTool')
-        if tool.toggled is True:
-            self._trigger_tool('FrameTool')
+        frame = True if self.is_frame() else False
+        self.frame_off(frame)
 
         plt.cla()
         self.size[1] += 1
         self.draw()
+        self.hFig.canvas.draw()
+        add_star_to_end(self.hFig)
 
     def remove_grid_row(self):
         """ Remove one row from the field """
 
-        tool = self._get_tool('FrameTool')
-        if tool.toggled is True:
-            self._trigger_tool('FrameTool')
+        if self.size[1] > 1:
+            frame = True if self.is_frame() else False
+            self.frame_off(frame)
 
-        self.size[1] -= 1
-        plt.cla()
-        self.draw()
+            self.size[1] -= 1
+            plt.cla()
+            self.draw()
+
+            self.frame_on(frame)
+            self.hFig.canvas.draw()
+            add_star_to_end(self.hFig)
 
     def _trigger_tool(self, name):
         """ Trigger tool by name """
-        self.hFig.canvas.manager.toolmanager.trigger_tool(name)
+        if self.hFig.canvas.manager.toolmanager:
+            return self.hFig.canvas.manager.toolmanager.trigger_tool(name)
+        else:
+            return None
 
     def _get_tool(self, name):
         """ Get tool by name """
-        return self.hFig.canvas.manager.toolmanager.get_tool(name)
+        if self.hFig.canvas.manager.toolmanager:
+            return self.hFig.canvas.manager.toolmanager.get_tool(name)
+        else:
+            return None
+
+    def is_frame(self):
+        """
+        Make checks for field frame active
+        """
+        return True if self.hFrame else False
+
+    def frame_redraw(self):
+        """
+        Redraw field frame
+        """
+        self.frame_delete()
+        self.frame_create()
+
+    def frame_off(self, frame: bool = False):
+        """
+        Delete field frame
+        """
+        tool = self._get_tool('FrameTool')
+        if tool and tool.toggled is True and frame:
+            self._trigger_tool('FrameTool')
+
+    def frame_on(self, frame: bool = False):
+        """
+        Draw field frame
+        """
+        if frame:
+            tool = self._get_tool('FrameTool')
+            if tool and tool.toggled is False:
+                self._trigger_tool('FrameTool')
+            else:
+                self.frame_create()

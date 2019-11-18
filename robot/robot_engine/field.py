@@ -13,7 +13,7 @@ from .marker import Marker
 from .tools.controls import add_tool_to_navigation, default_tools, clear_toolbar
 from .star_control import *
 from .dialog import save_file, open_file, input_integer
-from ..exceptions import RobotTypeError, EditFieldOutError
+from ..exceptions import RobotTypeError, EditFieldOutError, FieldSizeTypeError, FieldSizeValueError
 
 matplotlib.rcParams['toolbar'] = 'toolmanager'
 
@@ -75,7 +75,12 @@ class Field(object):
         self.body = body
 
         if size is not None:
-            self.size = size
+            if len(size) == 2:
+                if not isinstance(size[0], int) or not isinstance(size[1], int):
+                    raise FieldSizeTypeError
+                if size[0] < 1 or size[1] < 1:
+                    raise FieldSizeValueError
+                self.size = size
 
         # create Figure
         self.hFig = plt.figure()

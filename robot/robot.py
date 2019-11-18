@@ -186,6 +186,92 @@ class RobotBase:
         if star_control.is_star_to_end(self.hRobotEngine.hField.hFig):
             raise NotSaveError
 
+    def _is_frame(self):
+        """
+        Make checks for field frame active
+        """
+        return self.hRobotEngine.hField.is_frame()
+
+    def _frame_on(self):
+        """
+        Add field frame
+        """
+        return self.hRobotEngine.hField.frame_create()
+
+    def _frame_off(self):
+        """
+        Remove field frame
+        """
+        return self.hRobotEngine.hField.frame_delete()
+
+    def _set_field_size(self, size: list):
+        """
+        Set field size
+        """
+        return self.hRobotEngine.hField.set_size(*size)
+
+    def _set_field_coln(self, coln: int):
+        """
+        Set field column's number
+        """
+        return self.hRobotEngine.hField.set_size(coln=coln)
+
+    def _set_field_rown(self, rown: int):
+        """
+        Set field row's number
+        """
+        return self.hRobotEngine.hField.set_size(rown=rown)
+
+    def _restore_field(self):
+        """
+        Restore field
+        """
+        return self.hRobotEngine.hField.restore()
+
+    def _save_field(self, path=None):
+        """
+        Save field
+        """
+        return self.hRobotEngine.hField.save(False)
+
+    def _delay_on(self):
+        """
+        Enable delay
+        """
+        return self.hRobotEngine.delay_on()
+
+    def _delay_off(self):
+        """
+        Disable delay
+        """
+        return self.hRobotEngine.delay_off()
+
+    def _tmpr_on(self):
+        """
+        Show temperature
+        """
+        if not self.hRobotEngine.hField.is_tmpr_text_on():
+            return self.hRobotEngine.hField.tmpr_text_trigger()
+
+    def _tmpr_off(self):
+        """
+        Hide temperature
+        """
+        if self.hRobotEngine.hField.is_tmpr_text_on():
+            return self.hRobotEngine.hField.tmpr_text_trigger()
+
+    def _remove_borders(self):
+        """
+        Remove borders from field
+        """
+        return self.hRobotEngine.hField.borders_delete()
+
+    def _remove_markers(self):
+        """
+        Remove markers from field
+        """
+        return self.hRobotEngine.hField.markers_delete()
+
 
 class Robot(RobotBase):
     """

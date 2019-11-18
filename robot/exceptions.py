@@ -65,3 +65,18 @@ class EditFieldOutError(RobotException):
     of the last save by pressing CTRL+R
     """
     message = __doc__
+
+
+class FieldSizeTypeError(RobotException):
+    """ Field size values must be integer """
+    message = __doc__
+
+
+class FieldSizeValueError(RobotException):
+    """ Field size values must be positive """
+    message = __doc__
+
+
+class IsFrameValueError(RobotException):
+    """ Field is_frame value must be bool """
+    message = __doc__

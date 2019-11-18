@@ -89,9 +89,10 @@ class Field(object):
         self.gridLines = []
 
         # setup Toolbar
-        clear_toolbar(self.hFig.canvas.manager.toolmanager)
-        for tool in default_tools:
-            add_tool_to_navigation(tool, self.hFig)
+        if self.hFig.canvas.manager.toolmanager:
+            clear_toolbar(self.hFig.canvas.manager.toolmanager)
+            for tool in default_tools:
+                add_tool_to_navigation(tool, self.hFig)
 
         self.hAxes.robotdata = {'r': obj, 'f': self}
         self.hFig.canvas.callbacks.connect('pick_event', self.button_down_to_grid)

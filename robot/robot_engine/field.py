@@ -576,6 +576,10 @@ class Field(object):
                         self.hTexts[i][j].remove()
             self.is_texts = False
 
+    def is_tmpr_text_on(self):
+        """ Check if text with temperature in caves from values in self.tMap """
+        return True if self.is_texts else False
+
     def text_edit(self, i, j):
         """
         Allows you to edit the cell temperature

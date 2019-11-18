@@ -95,7 +95,7 @@ class RobotEngine:
 
     """
 
-    def __init__(self, mapfile=None, robot_type=None, delay=None):
+    def __init__(self, mapfile=None, robot_type=None, delay: int = None, **params):
         """
         Robot class constructor
         Creates (or creates, if in the dialogue there is a failure) box with a robot
@@ -117,8 +117,10 @@ class RobotEngine:
             for any reason
         """
 
+        is_delay = False
         if isinstance(delay, (int, float)) and delay > 0:
             self.delay_def = delay
+            is_delay = True
         else:
             self.delay_def = 0.5
 
@@ -150,14 +152,14 @@ class RobotEngine:
 
         if not mapfile:
             self.fName = 'untitled.map'
-            if not self.hField.load():  # User press "Cancel"
+            if not self.hField.load(is_delay):  # User press "Cancel"
                 if not self.hField.save():  # User press "Cancel"
                     add_star_to_end(self.hField.hFig)
                     self.is_init_save = False
         else:
             self.fPath = os.path.dirname(mapfile)
             self.fName = os.path.basename(mapfile)
-            self.hField.restore()
+            self.hField.restore(is_delay, **params)
             self.hField.hFig.canvas.set_window_title(self.robotType + ' - ' + mapfile)
 
         plt.show(block=False)

@@ -407,60 +407,50 @@ class RobotEngine:
 
         side = side.upper()
         if side == 'N':
-
-            if y >= self.hField.size[1] - 1:
-                return True if self.hField.hFrame else False  # Frame is a border
-            elif y < 0:
+            # robot is out of the field
+            if x < 0 or x >= self.hField.size[0]:
                 return False
 
-            # robot is out of the field
-            if x >= self.hField.size[0]:
-                x = self.hField.size[0] - 1
-            elif x < 0:
-                x = 0
+            if y < -1 or y > self.hField.size[1] - 1:
+                return False
+            elif y == -1 or y == self.hField.size[1] - 1:  # y = -1 - robot outside near frame
+                return True if self.hField.hFrame else False  # Frame is a border
 
             return True if self.hField.hHorBord[x][y + 1] else False
 
         elif side == 'S':
-            if y <= 0:
-                return True if self.hField.hFrame else False
-            elif y >= self.hField.size[1] - 1:
+            # robot is out of the field
+            if x < 0 or x >= self.hField.size[0]:
                 return False
 
-            # robot is out of the field
-            if x >= self.hField.size[0]:
-                x = self.hField.size[0] - 1
-            elif x < 0:
-                x = 0
+            if y < 0 or y > self.hField.size[1]:
+                return False
+            elif y == 0 or y == self.hField.size[1]:
+                return True if self.hField.hFrame else False
 
             return True if self.hField.hHorBord[x][y] else False
 
         elif side == 'O':
-            if x >= self.hField.size[0] - 1:
-                return True if self.hField.hFrame else False
-            elif x < 0:
+            # robot is out of the field
+            if y < 0 or y >= self.hField.size[1]:
                 return False
 
-            # robot is out of the field
-            if y >= self.hField.size[1]:
-                y = self.hField.size[1] - 1
-            elif y < 0:
-                y = 0
+            if x < -1 or x > self.hField.size[0] - 1:
+                return False
+            elif x == -1 or x == self.hField.size[0] - 1:
+                return True if self.hField.hFrame else False  # Frame is a border
 
             return True if self.hField.hVerBord[x + 1][y] else False
 
         elif side == 'W':
-
-            if x <= 0:
-                return True if self.hField.hFrame else False
-            elif x >= self.hField.size[0] - 1:
+            # robot is out of the field
+            if y < 0 or y >= self.hField.size[1]:
                 return False
 
-            # robot is out of the field
-            if y >= self.hField.size[1]:
-                y = self.hField.size[1] - 1
-            elif y < 0:
-                y = 0
+            if x < 0 or x > self.hField.size[0]:
+                return False
+            elif x == 0 or x == self.hField.size[0]:
+                return True if self.hField.hFrame else False
 
             return True if self.hField.hVerBord[x][y] else False
 

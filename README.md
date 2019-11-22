@@ -58,7 +58,7 @@ pip install git+https://github.com/Sherevv/robot.git
 
 
 # Class Robot
-```
+```python
 r = Robot()
 r = Robot( mapfile )
 r = Robot( delay=0.5 ) or r = Robot(None, 0.5 )
@@ -221,7 +221,7 @@ python
 ```
 
 
-```
+```python
 >>> from robot import Robot
 >>> from myfunc import walk_to_bord
 >>> r = Robot()
@@ -232,7 +232,7 @@ python
 
 To run the robot in Jupyter Notebook, you must use the magic commands for matplotlib.
 To run the robot in a separate window, you can use the `%matplotlib` command with the `tk` parameter:
-```
+```python
 %matplotlib tk
 from robot import Robot
 r = Robot()
@@ -240,7 +240,7 @@ r = Robot()
 ```
 
 To display the robot directly in Notebook, you must use the `widget`parameter
-```
+```python
 %matplotlib widget
 ```
 For using `widget` parameter, you need to install this extension: [jupyter-matplotlib](https://github.com/matplotlib/jupyter-matplotlib).

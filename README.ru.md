@@ -58,7 +58,7 @@ pip install git+https://github.com/Sherevv/robot.git
 ```
 
 # Описание класса Robot
-```
+```python
 r = Robot() # 1
 r = Robot( mapfile ) # 2
 r = Robot( delay=0.5 ) # or r = Robot(None, 0.5 ) # 3
@@ -222,7 +222,7 @@ python
 ```
 и выполняем следующие команды
 
-```
+```python
 >>> from robot import Robot
 >>> from myfunc import walk_to_bord
 >>> r = Robot()
@@ -233,7 +233,7 @@ python
 
 Для запуска робота в блокноте Jupyter необходимо использовать магические команды для matplotlib.
 Чтобы робот запускался в отдельном окне, можно использовать команду `%matplotlib` с параметром`tk`:
-```
+```python
 %matplotlib tk
 from robot import Robot
 r = Robot()
@@ -241,7 +241,7 @@ r = Robot()
 ```
 
 Чтобы робот отображался непосредственно в блокноте, необходимо использовать параметр `widget`
-```
+```python
 %matplotlib widget
 ```
 Для работы параметра `widget` нужно установить расширене [jupyter-matplotlib](https://github.com/matplotlib/jupyter-matplotlib).

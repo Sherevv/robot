@@ -473,10 +473,16 @@ class RobotEngine:
         """ Disable delay """
         self.delay = 0
         self.hRobot.delay = 0
-        self.isEffectOn = False
 
     def delay_on(self):
         """ Enable delay """
         self.delay = self.delay_def
         self.hRobot.delay = self.delay_def
+
+    def effects_off(self):
+        """ Disable visual effects """
+        self.isEffectOn = False
+
+    def effects_on(self):
+        """ Enable visual effects """
         self.isEffectOn = True

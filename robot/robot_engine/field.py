@@ -85,7 +85,7 @@ class Field(object):
         # create Figure
         self.hFig, self.hAxes = plt.subplots()
         self.hFig.canvas.set_window_title(self.obj.robotType)
-        plt.gca().set_aspect('equal')  # save field scale
+        self.hAxes.set_aspect('equal')  # save field scale
         self.gridLines = []
 
         # setup Toolbar

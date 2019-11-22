@@ -27,7 +27,7 @@ class Marker:
                                       edgecolor='m',
                                       linewidth=0.5,
                                       clip_on=False,
-                                      zorder=10,
+                                      zorder=17,
                                       picker=5)
 
         self.hAxes.add_patch(self.hPatch)

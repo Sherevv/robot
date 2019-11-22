@@ -417,10 +417,16 @@ class Field(object):
 
         x, y = (event.mouseevent.xdata, event.mouseevent.ydata)
 
+        if x is None or y is None:
+            return
+
         ort = event.artist.robotdata  # ort
         if ort == 'ver':
             y = np.floor(y)
             x = round(x)
+
+            if y < 0:
+                y = 0
 
             i = int(x)  # the line index of the matrix hVerBord
             j = int(y)  # the column index of the matrix hVerBord
@@ -442,6 +448,9 @@ class Field(object):
         elif ort == 'hor':
             y = round(y)
             x = np.floor(x)
+
+            if x < 0:
+                x = 0
 
             i = int(x)  # the line index of the matrix hHorBor
             j = int(y)  # the column index of the matrix hHorBor

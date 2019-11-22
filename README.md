@@ -118,6 +118,8 @@ Additional methods for working with the field, similar to the functionality of c
 
 **`_remove_markers()`** - removes all markers from the field
 
+**`_effects_on()`, `_effects_off()`** -  enables/disables visualization of the field checks by robot
+
 # RobotOrt
 
 The RobotOrt class, each object of this class represents an executor of a "oriented robot on a cellular field"

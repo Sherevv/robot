@@ -272,6 +272,14 @@ class RobotBase:
         """
         return self.hRobotEngine.hField.markers_delete()
 
+    def _effects_on(self):
+        """ Disable visual effects """
+        return self.hRobotEngine.effects_on()
+
+    def _effects_off(self):
+        """ Enable visual effects """
+        return self.hRobotEngine.effects_off()
+
 
 class Robot(RobotBase):
     """

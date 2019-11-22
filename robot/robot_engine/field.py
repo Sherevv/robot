@@ -573,7 +573,7 @@ class Field(object):
                                                         bbox={'fill': True,
                                                               'edgecolor': 'k',
                                                               'facecolor': 'w',
-                                                              'linewidth': 1,
+                                                              'linewidth': 0,
                                                               'boxstyle': 'round'},
                                                         zorder=100)
             self.is_texts = True
@@ -584,6 +584,8 @@ class Field(object):
                     if self.hTexts[i][j]:
                         self.hTexts[i][j].remove()
             self.is_texts = False
+
+        self.hFig.canvas.draw()
 
     def is_tmpr_text_on(self):
         """ Check if text with temperature in caves from values in self.tMap """

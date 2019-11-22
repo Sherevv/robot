@@ -16,6 +16,7 @@ Robot on the plaid field
     * [RobotRot methods](#robotrot-methods)
 * [Basic usage](#basic-usage)
 * [Usage with python command line](#usage-with-python-command-line)
+* [Using with Jupyter](#Using-with-Jupyter)
 * [Working with the interface](#working-with-the-interface)
     * [Control buttons](#control-buttons)
     * [Keyboard control](#keyboard-control)    
@@ -23,10 +24,10 @@ Robot on the plaid field
 
 # Requirements
 
-- Python 3.6.x
-- tkinter (include in the standard Python distribution)
-- numpy
-- matplotlib
+- Python 3.7 and above (3.7)
+- tkinter (8.6.9, include in the standard Python distribution, in Linux should be install separately)
+- numpy (1.17.4)
+- matplotlib (3.1.1)
 
 
 # Installation
@@ -57,10 +58,13 @@ pip install git+https://github.com/Sherevv/robot.git
 
 
 # Class Robot
-
-    r = Robot()
-    r = Robot( mapfile )
-    r = Robot( delay=0.5 ) or r = Robot(None, 0.5 )                
+```
+r = Robot()
+r = Robot( mapfile )
+r = Robot( delay=0.5 ) or r = Robot(None, 0.5 )
+params = {'delay': 0.2, 'size': [10, 5], 'frame': True}
+r = Robot(**params) # 4
+```                
 
 In the 1st case, the standard dialog box opens for
 in case of failure, the file selection dialog opens for
@@ -72,19 +76,47 @@ In the 2nd case:
 In the 3rd case:
 - `delay` - the time delay during animation (defaults to `0.5` seconds)
 
+In the 4th case a dictionary of parameters is passes:
+ - `size`  - field sizes in list `[height, width]`  (defaults `[5, 3]`)
+ - `frame` - whether the field frame is enabled (defaults `True`)
+
 ## Robot methods
 
-**step(side)** - moves robot on one step to the set `side`
+**`step(side)`** - moves robot on one step to the set `side`
 
-**mark()** - puts a marker in the current cell
+**`mark()`** - puts a marker in the current cell
 
-**is_mark()** - check if marker exists in the current cell
+**`is_mark()`** - check if marker exists in the current cell
 
-**is_bord(side)** - check if border exists in the set side
+**`is_bord(side)`** - check if border exists in the set side
 
-**get_tmpr()** - returns value of temperature in the current cell
+**`get_tmpr()`** - returns value of temperature in the current cell
 
 `side` can use values `'n'`, `'s'`, `'w'`, `'o'` respectively North, South, West, East
+
+Additional methods for working with the field, similar to the functionality of controls:
+
+**`_is_frame ()`** - check if there is an outer frame (wall) of the field
+
+**`_frame_on()`, `_frame_off()`** - adds/removes the outer frame of the field
+
+**`_set_field_size(size)`** - creates a new value for the specified size `size = [coln, rown]`
+
+**`_set_field_coln(coln)`** - sets the new height of the field with `coln` 
+
+**`_set_field_rown(rown)`** - sets the new width of the field with `rown` 
+
+**`_restore_field()`** - restores the state of a field from a file
+
+**`_save_field()`** - saves the state of the field in the file
+
+**`_delay_on()`, `_delay_off()`** - enables / disables time delay 
+
+**`_tmpr_on()`, `_tmpr_off()`** - enables / disables cell temperature display
+
+**`_remove_borders()`** - removes all partitions from the field (except the outer frame)
+
+**`_remove_markers()`** - removes all markers from the field
 
 # RobotOrt
 
@@ -97,17 +129,17 @@ The direction of travel, turns and check for obstacles are set on:
 
 ## RobotOrt methods
 
-**forward()** - move the robot forward to the next cell 
+**`forward()`** - move the robot forward to the next cell 
 
-**right()** - turn the robot to the right
+**`right()`** - turn the robot to the right
 
-**left()** - turn the robot to the left
+**`left()`** - turn the robot to the left
 
-**is_bord()** - check if there is an wall right on the course.
+**`is_bord()`** - check if there is an wall right on the course.
 
-**get_side()** - get the current direction of the robot
+**`get_side()`** - get the current direction of the robot
 
-Methods **mark()**, **is_mark()**, **get_tmpr()** - correspond to the `Robot` class methods
+Methods **`mark()`**, **`is_mark()`**, **`get_tmpr()`** - correspond to the `Robot` class methods
 
 # RobotRot
 
@@ -120,9 +152,9 @@ and also because the `is_bord` method has a parameter that can
 
 ## RobotRot methods
 
-**rot(side)** - turn the robot left, right or back
+**`rot(side)`** - turn the robot left, right or back
 
-**is_bord(side)** - check if border exists in the side
+**`is_bord(side)`** - check if border exists in the side
 
 The other methods are the same as in the `RobotOrt` class.
 
@@ -166,6 +198,7 @@ then execute script
 python start.py
 ```
 
+[Code examples](robot/examples)
 
 # Usage with python command line
 
@@ -195,8 +228,22 @@ python
 >>> walk_to_bord(r, 'o')
 ```
 
-[Code examples](robot/examples)
+# Using with Jupyter
 
+To run the robot in Jupyter Notebook, you must use the magic commands for matplotlib.
+To run the robot in a separate window, you can use the `%matplotlib` command with the `tk` parameter:
+```
+%matplotlib tk
+from robot import Robot
+r = Robot()
+...
+```
+
+To display the robot directly in Notebook, you must use the `widget`parameter
+```
+%matplotlib widget
+```
+For using `widget` parameter, you need to install this extension: [jupyter-matplotlib](https://github.com/matplotlib/jupyter-matplotlib).
 
 # Working with the interface
 

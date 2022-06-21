@@ -20,7 +20,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ),
     install_requires=[
-        'numpy==1.17.4',
+        'numpy==1.22.0',
         'matplotlib==3.1.1'
     ]
 )
